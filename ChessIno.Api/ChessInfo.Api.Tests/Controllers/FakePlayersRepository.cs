@@ -21,7 +21,7 @@ namespace ChessInfo.Api.Tests.Controllers
             return _players.Single(p => p.Key == playerId).Value;
         }
 
-        public IEnumerable<Player> GetPlayers()
+        public IEnumerable<Player> GetPlayers(string lastName = null)
         {
             throw new NotImplementedException();
         }

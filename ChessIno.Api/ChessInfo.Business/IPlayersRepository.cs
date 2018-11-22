@@ -6,6 +6,6 @@ namespace ChessInfo.Business
     {
         void AddPlayer(Player newPlayer);
         Player GetById(int playerId);
-        IEnumerable<Player> GetPlayers();
+        IEnumerable<Player> GetPlayers(string lastName = null);
     }
 }

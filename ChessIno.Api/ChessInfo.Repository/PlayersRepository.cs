@@ -34,7 +34,7 @@ namespace ChessInfo.Repository
             return _context.Players.SingleOrDefault(p => p.PlayerId == playerId);
         }
 
-        public IEnumerable<Player> GetPlayers()
+        public IEnumerable<Player> GetPlayers(string lastName = null)
         {
             return _context.Players.ToList();
         }

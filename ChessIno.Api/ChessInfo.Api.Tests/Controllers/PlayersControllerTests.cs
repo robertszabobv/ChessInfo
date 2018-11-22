@@ -127,7 +127,7 @@ namespace ChessInfo.Api.Tests.Controllers
         public void GetPlayers_Returns_404_WhenNoPlayerFoundWithNull()
         {
             var repositoryMock = new Mock<IPlayersRepository>();
-            repositoryMock.Setup(r => r.GetPlayers()).Returns((IEnumerable<Player>) null);
+            repositoryMock.Setup(r => r.GetPlayers(null)).Returns((IEnumerable<Player>) null);
             var controller = new PlayersController(repositoryMock.Object);
             IActionResult result = controller.GetPlayers();
 
@@ -138,7 +138,7 @@ namespace ChessInfo.Api.Tests.Controllers
         public void GetPlayers_Returns_404_WhenNoPlayerFoundWithEmpty()
         {
             var repositoryMock = new Mock<IPlayersRepository>();
-            repositoryMock.Setup(r => r.GetPlayers()).Returns(new List<Player>());
+            repositoryMock.Setup(r => r.GetPlayers(null)).Returns(new List<Player>());
             var controller = new PlayersController(repositoryMock.Object);
             IActionResult result = controller.GetPlayers();
 
@@ -150,7 +150,7 @@ namespace ChessInfo.Api.Tests.Controllers
         public void GetPlayers_Returns_200_WhenPlayersFound()
         {
             var repositoryMock = new Mock<IPlayersRepository>();
-            repositoryMock.Setup(r => r.GetPlayers()).Returns(new []{CreateNewDummyPlayer(), CreateNewDummyPlayer()});
+            repositoryMock.Setup(r => r.GetPlayers(null)).Returns(new []{CreateNewDummyPlayer(), CreateNewDummyPlayer()});
             var controller = new PlayersController(repositoryMock.Object);
             IActionResult result = controller.GetPlayers();
 
@@ -161,7 +161,7 @@ namespace ChessInfo.Api.Tests.Controllers
         public void GetPlayers_Returns_Players_WhenPlayersFound()
         {
             var repositoryMock = new Mock<IPlayersRepository>();
-            repositoryMock.Setup(r => r.GetPlayers()).Returns(new[] { CreateNewDummyPlayer(), CreateNewDummyPlayer() });
+            repositoryMock.Setup(r => r.GetPlayers(null)).Returns(new[] { CreateNewDummyPlayer(), CreateNewDummyPlayer() });
             var controller = new PlayersController(repositoryMock.Object);
             IActionResult result = controller.GetPlayers();
 
@@ -171,10 +171,25 @@ namespace ChessInfo.Api.Tests.Controllers
         [Test]
         public void FilterPlayersByLastName_Returns_404_WhenNothingMatches()
         {
+            const string nonExistentLastName = "dude";
             var repositoryMock = new Mock<IPlayersRepository>();
-            repositoryMock.Setup(r => r.GetPlayers()).Returns(new List<Player>());
+            repositoryMock.Setup(r => r.GetPlayers(nonExistentLastName)).Returns(new List<Player>());
             var controller = new PlayersController(repositoryMock.Object);
-            IActionResult result = controller.GetPlayers();
+            IActionResult result = controller.GetPlayers(nonExistentLastName);
+
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
+        [Test]
+        public void FilterPlayersByLastName_Returns_200_WhenMatchesFound()
+        {
+            const string existentLastName = "dude";
+            var repositoryMock = new Mock<IPlayersRepository>();
+            repositoryMock.Setup(r => r.GetPlayers(existentLastName)).Returns(new[] { CreateNewDummyPlayer(), CreateNewDummyPlayer() });
+            var controller = new PlayersController(repositoryMock.Object);
+            IActionResult result = controller.GetPlayers(existentLastName);
+
+            Assert.IsInstanceOf<OkObjectResult>(result);
         }
 
         private bool AreTheSamePlayers(Player expected, Player actual)
