@@ -1,0 +1,1 @@
+NT AUTHORITY\NETWORK SERVICE -> server roles: dbcreator
