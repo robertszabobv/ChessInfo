@@ -43,7 +43,7 @@ namespace ChessInfo.Repository
         {
             return string.IsNullOrWhiteSpace(lastName)
                 ? p => true
-                : new Func<Player, bool>(p => p.LastName.StartsWith(lastName));
+                : new Func<Player, bool>(p => p.LastName.StartsWith(lastName, StringComparison.OrdinalIgnoreCase));
         }
 
         public void Dispose()
