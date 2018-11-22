@@ -36,7 +36,14 @@ namespace ChessInfo.Repository
 
         public IEnumerable<Player> GetPlayers(string lastName = null)
         {
-            return _context.Players.ToList();
+            return _context.Players.Where(Matching(lastName)).ToList();
+        }
+
+        private Func<Player, bool> Matching(string lastName)
+        {
+            return string.IsNullOrWhiteSpace(lastName)
+                ? p => true
+                : new Func<Player, bool>(p => p.LastName.StartsWith(lastName));
         }
 
         public void Dispose()
