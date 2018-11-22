@@ -1,4 +1,10 @@
 chessApp.factory('playersService', function($http, $log) {
+    function getPlayersUrl(lastName) {
+            return (lastName == null)
+            ? "/api/players"
+            : "/api/players" + "?lastName=" + lastName;
+    };
+
     return {
         savePlayer: function(player) {      
             return $http.post('/api/players', player);        
@@ -14,25 +20,14 @@ chessApp.factory('playersService', function($http, $log) {
             });
         },
 
-        getPlayers: function(successCallback) {
-            return $http.get("/api/players")
+        getPlayers: function(successCallback, lastName) {          
+            return $http.get(getPlayersUrl(lastName))
             .success(function(data, status, headers, config) {
                 successCallback(data);
             })
             .error(function(data, status, headers, config){
                 $log.warn(data, status, headers, config);
             });
-        },
-
-        filterPlayers: function(successCallback, lastName) {
-            var filterPlayersUrl = "/api/players" + "?lastName=" + lastName;
-            return $http.get(filterPlayersUrl)
-            .success(function(data, status, headers, config) {
-                successCallback(data);
-            })
-            .error(function(data, status, headers, config){
-                $log.warn(data, status, headers, config);
-            });           
-        }
+        },              
     };
 });

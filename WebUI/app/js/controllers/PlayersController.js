@@ -10,10 +10,9 @@ chessApp.controller('PlayersController',
         });
 
         $scope.filterPlayersByLastName = function() {
-            playersService.filterPlayers(function(playersFiltered) {
+            playersService.getPlayers(function(playersFiltered) {
                 $scope.players = playersFiltered;
             }, 
             $scope.filter);
-            // $scope.players = playersService.filterPlayers($scope.filter);
         }
 });
