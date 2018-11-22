@@ -4,8 +4,7 @@ chessApp.controller('PlayersController',
     function PlayersController($scope, playersService) {
         $scope.players = {};
 
-        // playersService.getPlayers(function(players) {
-        //     $scope.players = players;
-        // });
-        $scope.players = playersService.getPlayers();
+        playersService.getPlayers(function(players) {
+            $scope.players = players;
+        });        
 });

@@ -14,28 +14,14 @@ chessApp.factory('playersService', function($http, $log) {
             });
         },
 
-        getPlayers: function() {
-            return [
-                {
-                    "playerId": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "rating": 100
-                },
-                {
-                    "playerId": 2,
-                    "firstName": "Mary",
-                    "lastName": "Chick",
-                    "rating": 222
-                },
-                {
-                    "playerId": 3,
-                    "firstName": "Vincent",
-                    "lastName": "Vega",
-                    "rating": 666
-                }
-            ];
+        getPlayers: function(successCallback) {
+            return $http.get("/api/players")
+            .success(function(data, status, headers, config) {
+                successCallback(data);
+            })
+            .error(function(data, status, headers, config){
+                $log.warn(data, status, headers, config);
+            });           
         }
-
     };
 });
