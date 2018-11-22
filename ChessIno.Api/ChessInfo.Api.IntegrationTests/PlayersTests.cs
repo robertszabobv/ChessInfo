@@ -30,7 +30,7 @@ namespace ChessInfo.Api.IntegrationTests
         public void NewPlayerGetsCreated_And_ResponseHeaderUriCanBeUsedToLoadIt()
         {
             HttpClient client = CreateHttpClient();
-            Uri newPlayerUri = SendHttpPostPlayer(client);
+            Uri newPlayerUri = SendHttpPostToCreateNewDummyPlayer(client);
             Player playerLoaded = SendHttpGetPlayer(client, newPlayerUri);
 
             Assert.IsTrue(playerLoaded.PlayerId > 0);
@@ -40,7 +40,7 @@ namespace ChessInfo.Api.IntegrationTests
         public void GetPlayers_ReturnsPlayers()
         {
             HttpClient client = CreateHttpClient();
-            SendHttpPostPlayer(client);
+            SendHttpPostToCreateNewDummyPlayer(client);
             IEnumerable<Player> players = SendHttpGetPlayers(client);
 
             Assert.IsNotNull(players);
@@ -68,7 +68,7 @@ namespace ChessInfo.Api.IntegrationTests
             return JsonConvert.DeserializeObject<T>(responseBody);
         }
 
-        private Uri SendHttpPostPlayer(HttpClient client)
+        private Uri SendHttpPostToCreateNewDummyPlayer(HttpClient client)
         {
             Player player = CreateNewDummyPlayer();
             var createPlayerUri = new Uri($"{_serviceBaseUrl}/{PlayersRelativeUrl}");
