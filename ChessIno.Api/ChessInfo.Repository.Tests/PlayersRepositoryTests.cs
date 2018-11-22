@@ -82,6 +82,20 @@ namespace ChessInfo.Repository.Tests
             }
         }
 
+        [Test]
+        public void GetPlayersByLastName_ReturnsPlayersHavingLastNameStartingWithSearchedStringInLowerCase()
+        {
+            string lastName = DateTime.Now.DayOfWeek.ToString();
+            string lastNameToFind = lastName.Substring(0, 3).ToLower();
+            using (var repository = new PlayersRepository())
+            {
+                repository.AddPlayer(CreatePlayerWithLastName(lastName));
+                var loadedPlayers = repository.GetPlayers(lastNameToFind);
+
+                Assert.IsTrue(loadedPlayers.All(p => p.LastName.StartsWith(lastNameToFind, StringComparison.OrdinalIgnoreCase)));
+            }
+        }
+
         private void AddPlayer(Player player)
         {
             using (var repository = new PlayersRepository())
