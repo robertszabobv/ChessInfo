@@ -21,24 +21,18 @@ chessApp.factory('playersService', function($http, $log) {
             })
             .error(function(data, status, headers, config){
                 $log.warn(data, status, headers, config);
-            });           
+            });
         },
 
-        filterPlayers: function(lastName) {
-            return [
-                {
-                    "playerId": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "rating": 101
-                },
-                {
-                    "playerId": 1,
-                    "firstName": "Mary",
-                    "lastName": "Chick",
-                    "rating": 2200
-                }
-            ]
+        filterPlayers: function(successCallback, lastName) {
+            var filterPlayersUrl = "/api/players" + "?lastName=" + lastName;
+            return $http.get(filterPlayersUrl)
+            .success(function(data, status, headers, config) {
+                successCallback(data);
+            })
+            .error(function(data, status, headers, config){
+                $log.warn(data, status, headers, config);
+            });           
         }
     };
 });
