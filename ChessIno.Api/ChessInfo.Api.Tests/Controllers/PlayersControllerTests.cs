@@ -134,6 +134,27 @@ namespace ChessInfo.Api.Tests.Controllers
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
+        [Test]
+        public void GetPlayers_Returns_200_WhenPlayersFound()
+        {
+            var repositoryMock = new Mock<IPlayersRepository>();
+            repositoryMock.Setup(r => r.GetPlayers()).Returns(new []{CreateNewDummyPlayer(), CreateNewDummyPlayer()});
+            var controller = new PlayersController(repositoryMock.Object);
+            IActionResult result = controller.GetPlayers();
+
+            Assert.IsInstanceOf<OkObjectResult>(result);
+        }
+
+        [Test]
+        public void GetPlayers_Returns_Players_WhenPlayersFound()
+        {
+            var repositoryMock = new Mock<IPlayersRepository>();
+            repositoryMock.Setup(r => r.GetPlayers()).Returns(new[] { CreateNewDummyPlayer(), CreateNewDummyPlayer() });
+            var controller = new PlayersController(repositoryMock.Object);
+            IActionResult result = controller.GetPlayers();
+            Assert.IsInstanceOf<IEnumerable<Player>>(((OkObjectResult)result).Value);
+        }
+
         private bool AreTheSamePlayers(Player expected, Player actual)
         {
             return expected.FirstName.Equals(actual.FirstName)
