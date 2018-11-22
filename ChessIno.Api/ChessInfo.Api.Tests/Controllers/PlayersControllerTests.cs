@@ -152,6 +152,7 @@ namespace ChessInfo.Api.Tests.Controllers
             repositoryMock.Setup(r => r.GetPlayers()).Returns(new[] { CreateNewDummyPlayer(), CreateNewDummyPlayer() });
             var controller = new PlayersController(repositoryMock.Object);
             IActionResult result = controller.GetPlayers();
+
             Assert.IsInstanceOf<IEnumerable<Player>>(((OkObjectResult)result).Value);
         }
 
