@@ -168,6 +168,15 @@ namespace ChessInfo.Api.Tests.Controllers
             Assert.IsInstanceOf<IEnumerable<Player>>(((OkObjectResult)result).Value);
         }
 
+        [Test]
+        public void FilterPlayersByLastName_Returns_404_WhenNothingMatches()
+        {
+            var repositoryMock = new Mock<IPlayersRepository>();
+            repositoryMock.Setup(r => r.GetPlayers()).Returns(new List<Player>());
+            var controller = new PlayersController(repositoryMock.Object);
+            IActionResult result = controller.GetPlayers();
+        }
+
         private bool AreTheSamePlayers(Player expected, Player actual)
         {
             return expected.FirstName.Equals(actual.FirstName)

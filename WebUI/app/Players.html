@@ -22,6 +22,15 @@
             <h1>Players</h1>
             <hr/>
 
+            <div>
+                <fieldset>                    
+                    <input type="search" id="lastNameFilter" placeholder="find by last name..."
+                    ng-model="filter" 
+                    ng-model-options='{ debounce: 1000 }' 
+                    ng-change="filterPlayersByLastName()" />
+                </fieldset>
+            </div>
+
             <table class="playersTable">
                 <tr>
                     <th>First Name</th>

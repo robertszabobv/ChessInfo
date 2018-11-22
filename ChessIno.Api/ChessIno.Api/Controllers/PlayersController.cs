@@ -39,7 +39,7 @@ namespace ChessInfo.Api.Controllers
        }
 
         [HttpGet]
-        public IActionResult GetPlayers()
+        public IActionResult GetPlayers([FromQuery]string lastName = null)
         {
             IEnumerable<Player> players = _playersRepository.GetPlayers();
             if (players == null || !players.Any())
