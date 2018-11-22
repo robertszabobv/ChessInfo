@@ -42,6 +42,17 @@ namespace ChessInfo.Repository.Tests
             }
         }
 
+        [Test]
+        public void GetPlayers_ReturnsPlayers()
+        {
+            using (var repository = new PlayersRepository())
+            {
+                var loadedPlayers = repository.GetPlayers();
+
+                Assert.IsNotNull(loadedPlayers);
+            }
+        }
+
         private void AddPlayer(Player player)
         {
             using (var repository = new PlayersRepository())

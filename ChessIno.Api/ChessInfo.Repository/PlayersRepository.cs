@@ -36,7 +36,7 @@ namespace ChessInfo.Repository
 
         public IEnumerable<Player> GetPlayers()
         {
-            throw new NotImplementedException();
+            return _context.Players.ToList();
         }
 
         public void Dispose()

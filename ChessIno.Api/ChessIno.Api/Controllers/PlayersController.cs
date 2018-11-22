@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ChessInfo.Business;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace ChessInfo.Api.Controllers
 {
@@ -41,7 +42,7 @@ namespace ChessInfo.Api.Controllers
         public IActionResult GetPlayers()
         {
             IEnumerable<Player> players = _playersRepository.GetPlayers();
-            if (players == null)
+            if (players == null || !players.Any())
             {
                 return NotFound();
             }

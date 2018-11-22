@@ -124,7 +124,7 @@ namespace ChessInfo.Api.Tests.Controllers
         }
 
         [Test]
-        public void GetPlayers_Returns_404_WhenNoPlayerFound()
+        public void GetPlayers_Returns_404_WhenNoPlayerFoundWithNull()
         {
             var repositoryMock = new Mock<IPlayersRepository>();
             repositoryMock.Setup(r => r.GetPlayers()).Returns((IEnumerable<Player>) null);
@@ -133,6 +133,18 @@ namespace ChessInfo.Api.Tests.Controllers
 
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
+
+        [Test]
+        public void GetPlayers_Returns_404_WhenNoPlayerFoundWithEmpty()
+        {
+            var repositoryMock = new Mock<IPlayersRepository>();
+            repositoryMock.Setup(r => r.GetPlayers()).Returns(new List<Player>());
+            var controller = new PlayersController(repositoryMock.Object);
+            IActionResult result = controller.GetPlayers();
+
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
 
         [Test]
         public void GetPlayers_Returns_200_WhenPlayersFound()

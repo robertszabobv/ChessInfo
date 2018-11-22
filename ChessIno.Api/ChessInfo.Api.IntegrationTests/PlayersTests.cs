@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using FizzWare.NBuilder;
@@ -13,7 +14,7 @@ namespace ChessInfo.Api.IntegrationTests
     public class PlayersTests
     {
         private static string _serviceBaseUrl;
-        private const string PlayersRelativeUrl = "api/players";
+        private const string PlayersRelativeUrl = "players";
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -35,18 +36,42 @@ namespace ChessInfo.Api.IntegrationTests
             Assert.IsTrue(playerLoaded.PlayerId > 0);
         }
 
+        [Test]
+        public void GetPlayers_ReturnsPlayers()
+        {
+            HttpClient client = CreateHttpClient();
+            SendHttpPostPlayer(client);
+            IEnumerable<Player> players = SendHttpGetPlayers(client);
+
+            Assert.IsNotNull(players);
+            Assert.IsNotEmpty(players);
+        }
+
+        private IEnumerable<Player> SendHttpGetPlayers(HttpClient client)
+        {
+            var getPlayersUri = new Uri($"{_serviceBaseUrl}/{PlayersRelativeUrl}");
+            var response = client.GetAsync(getPlayersUri).Result;
+            response.EnsureSuccessStatusCode();
+            return ReadContentAs<IEnumerable<Player>>(response);
+        }
+
         private Player SendHttpGetPlayer(HttpClient client, Uri newPlayerUri)
         {
             var response = client.GetAsync(newPlayerUri).Result;
             response.EnsureSuccessStatusCode();
+            return ReadContentAs<Player>(response);
+        }
+
+        private static T ReadContentAs<T>(HttpResponseMessage response)
+        {
             string responseBody = response.Content.ReadAsStringAsync().Result;
-            return JsonConvert.DeserializeObject<Player>(responseBody);
+            return JsonConvert.DeserializeObject<T>(responseBody);
         }
 
         private Uri SendHttpPostPlayer(HttpClient client)
         {
             Player player = CreateNewDummyPlayer();
-            var createPlayerUri = new Uri(new Uri(_serviceBaseUrl), PlayersRelativeUrl);
+            var createPlayerUri = new Uri($"{_serviceBaseUrl}/{PlayersRelativeUrl}");
             StringContent playerHttpContent = CreateHttpContentFrom(player);
             var response = client.PostAsync(createPlayerUri, playerHttpContent).Result;
             return response.Headers.Location;
