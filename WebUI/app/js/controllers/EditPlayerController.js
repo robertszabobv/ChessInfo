@@ -9,7 +9,7 @@ chessApp.controller('EditPlayerController',
                 playersService.savePlayer(player)
                 .success(function(data, status) {
                     window.alert('player ' + player.firstName + ' ' + player.lastName + ' saved!');
-                    //window.location = "";
+                    window.location = "\Players.html";
                 })
                 .error(function(data, status, headers, config) {
                     $log.warn(data, status, headers, config);
@@ -18,7 +18,7 @@ chessApp.controller('EditPlayerController',
         }
 
         $scope.cancel = function() {
-            window.location = "http://www.google.com";
+            window.location = "\Players.html";
         }
     }
 );

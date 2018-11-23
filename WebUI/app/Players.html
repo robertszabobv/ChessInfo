@@ -43,11 +43,13 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Rating</th>
+                    <th style="width: 10%"></th>
                 </tr>
                 <tr ng-repeat="player in players">
                     <td>{{player.firstName}}</td>
                     <td>{{player.lastName}}</td>
                     <td style="text-align: right">{{player.rating}}</td>
+                    <td><button type="button"><img id="deletePlayer" ng-src="/img/delete.png" style="width: 32px; height: 32px;" title="delete"></button></td>
                 </tr>
             </table>                     
         </div>
