@@ -1,8 +1,8 @@
 'use strict';
 
 chessApp.controller('EditPlayerController',
-    function EditPlayerController($scope, playersService) {
-        $scope.player = {};
+    function EditPlayerController($scope, playersService, $routeParams) {       
+        $scope.player = playersService.getPlayer($routeParams.playerId);
 
         $scope.savePlayer = function(player, playerForm) {
             if(playerForm.$valid) {
@@ -13,12 +13,12 @@ chessApp.controller('EditPlayerController',
                 })
                 .error(function(data, status, headers, config) {
                     $log.warn(data, status, headers, config);
-                });                                
-            }            
+                });
+            }
         }
 
         $scope.cancel = function() {
             window.location = "\Players.html";
-        }
+        }        
     }
 );

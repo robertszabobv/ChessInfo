@@ -10,16 +10,19 @@ chessApp.factory('playersService', function($http, $log) {
             return $http.post('/api/players', player);        
         },
 
-        getPlayer: function() {           
-            $http( {method: 'GET', url: '/api/players/1'} )
+        getPlayer: function(playerId) {
+            if(playerId === undefined) {
+                return {};
+            }
+            $http.get( '/api/players/' + playerId)
             .success(function(data, status, headers, config) {
-                $log.info(data, status);                
+                return data;              
             })
             .error(function(data, status, headers, config) {
-                $log.warn(data, status, headers, config);
-                
+                $log.warn(data, status, headers, config);  
+                return undefined;          
             });
-        },
+        },       
 
         getPlayers: function(successCallback, notFoundCallback, lastName) {          
             return $http.get(getPlayersUrl(lastName))
