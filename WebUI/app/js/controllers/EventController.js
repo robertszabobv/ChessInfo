@@ -1,6 +1,6 @@
 'use strict';
 
-eventsApp.controller('EventController', 
+chessApp.controller('EventController', 
     function EventController($scope, eventData) {
         $scope.snippet = '<span style="color:red">hi there</span>';
         $scope.boolValue = false;
