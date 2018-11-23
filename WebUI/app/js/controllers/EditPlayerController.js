@@ -1,7 +1,8 @@
 'use strict';
 
 chessApp.controller('EditPlayerController',
-    function EditPlayerController($scope, playersService) {
+    function EditPlayerController($scope, playersService, $routeParams) {
+        $scope.playerId = $routeParams.playerId === undefined ? -1 : $routeParams.playerId;
         $scope.player = {};
 
         $scope.savePlayer = function(player, playerForm) {
