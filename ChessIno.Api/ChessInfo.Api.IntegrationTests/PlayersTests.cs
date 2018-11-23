@@ -27,13 +27,18 @@ namespace ChessInfo.Api.IntegrationTests
         }
 
         [Test]
-        public void NewPlayerGetsCreated_And_ResponseHeaderUriCanBeUsedToLoadIt()
+        public void CRUD_Succeeds()
         {
             HttpClient client = CreateHttpClient();
             Uri newPlayerUri = SendHttpPostToCreateNewDummyPlayer(client);
             Player playerLoaded = SendHttpGetPlayer(client, newPlayerUri);
-
+            
             Assert.IsTrue(playerLoaded.PlayerId > 0);
+
+            SendHttpDeletePlayer(client, newPlayerUri);
+            Player playerAfterDelete = SendHttpGetPlayer(client, newPlayerUri);
+
+            Assert.IsNull(playerAfterDelete);
         }
 
         [Test]
@@ -55,10 +60,15 @@ namespace ChessInfo.Api.IntegrationTests
             return ReadContentAs<IEnumerable<Player>>(response);
         }
 
+        private void SendHttpDeletePlayer(HttpClient client, Uri newPlayerUri)
+        {
+            var response = client.DeleteAsync(newPlayerUri).Result;
+            response.EnsureSuccessStatusCode();
+        }
+
         private Player SendHttpGetPlayer(HttpClient client, Uri newPlayerUri)
         {
             var response = client.GetAsync(newPlayerUri).Result;
-            response.EnsureSuccessStatusCode();
             return ReadContentAs<Player>(response);
         }
 

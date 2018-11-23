@@ -96,6 +96,21 @@ namespace ChessInfo.Repository.Tests
             }
         }
 
+        [Test]
+        public void DeletePlayer_DeletesPlayer()
+        {
+            string lastName = DateTime.Now.DayOfWeek.ToString();
+            using (var repository = new PlayersRepository())
+            {
+                repository.AddPlayer(CreatePlayerWithLastName(lastName));
+                int playerId = repository.GetPlayers(lastName).First().PlayerId;
+                repository.DeletePlayer(playerId);
+                Player playerReloaded = repository.GetById(playerId);
+
+                Assert.IsNull(playerReloaded);
+            }
+        }
+
         private void AddPlayer(Player player)
         {
             using (var repository = new PlayersRepository())

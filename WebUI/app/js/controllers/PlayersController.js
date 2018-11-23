@@ -23,9 +23,11 @@ chessApp.controller('PlayersController',
         }
 
         $scope.deletePlayer = function(player) {
-            playerService.deletePlayer(
+            playersService.deletePlayer(
                 function onPlayerDeleted() {
-
+                    var index = $scope.players.indexOf(player);
+                    $scope.players.splice(index, 1);
+                    alert(player.firstName + " " + player.lastName + " deleted.");
                 },
                 function onDeleteFailed() {
                     

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ChessInfo.Repository
 {
-    public class PlayersRepository : IPlayersRepository, IDisposable
+    public class PlayersRepository : IPlayersRepository
     {
         private readonly ChessInfoContext _context;
 
@@ -41,7 +41,9 @@ namespace ChessInfo.Repository
 
         public void DeletePlayer(int playerId)
         {
-            throw new NotImplementedException();
+            Player playerToDelete = _context.Players.Single(p => p.PlayerId == playerId);
+            _context.Remove(playerToDelete);
+            _context.SaveChanges();
         }
 
         private Func<Player, bool> Matching(string lastName)
