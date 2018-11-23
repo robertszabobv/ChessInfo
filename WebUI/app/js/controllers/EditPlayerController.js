@@ -13,8 +13,8 @@ chessApp.controller('EditPlayerController',
                 })
                 .error(function(data, status, headers, config) {
                     $log.warn(data, status, headers, config);
-                });
-            }
+                });d
+            } 
         }
 
         $scope.cancel = function() {
