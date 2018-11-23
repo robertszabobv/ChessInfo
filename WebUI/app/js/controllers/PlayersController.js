@@ -4,12 +4,14 @@ chessApp.controller('PlayersController',
     function PlayersController($scope, playersService) {
         $scope.players = [];
         $scope.filter = "";
-        
-        playersService.getPlayers(function(players) {
-            $scope.players = players;
-        });
+    
+        loadPlayers();
 
         $scope.filterPlayersByLastName = function() {
+            loadPlayers();
+        } ;
+    
+        function loadPlayers() {
             playersService.getPlayers(
                 function onPlayersLoaded(playersFiltered) {
                     $scope.players = playersFiltered;
