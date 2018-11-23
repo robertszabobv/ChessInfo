@@ -2,7 +2,7 @@
 
 chessApp.controller('EditPlayerController',
     function EditPlayerController($scope, playersService, $routeParams) {       
-        $scope.player = playersService.getPlayer($routeParams.playerId);
+        $scope.player = getPlayer();
 
         $scope.savePlayer = function(player, playerForm) {
             if(playerForm.$valid) {
@@ -19,6 +19,16 @@ chessApp.controller('EditPlayerController',
 
         $scope.cancel = function() {
             window.location = "\Players.html";
-        }        
+        }      
+        
+        function getPlayer() {
+            if($routeParams.playerId === undefined) {
+                return {};
+            }
+            playersService.getPlayer($routeParams.playerId,
+                function onPlayerLoaded(player) {
+                    $scope.player = player
+                });
+        }
     }
 );

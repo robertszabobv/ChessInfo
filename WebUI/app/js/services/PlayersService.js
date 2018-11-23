@@ -10,17 +10,13 @@ chessApp.factory('playersService', function($http, $log) {
             return $http.post('/api/players', player);        
         },
 
-        getPlayer: function(playerId) {
-            if(playerId === undefined) {
-                return {};
-            }
+        getPlayer: function(playerId, successCallback) {           
             $http.get( '/api/players/' + playerId)
             .success(function(data, status, headers, config) {
-                return data;              
+                successCallback(data);          
             })
             .error(function(data, status, headers, config) {
-                $log.warn(data, status, headers, config);  
-                return undefined;          
+                $log.warn(data, status, headers, config);                       
             });
         },       
 
