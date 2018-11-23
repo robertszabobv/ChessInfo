@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ChessInfo.Business;
-using ChessIno.Api;
 
 namespace ChessInfo.Api.Tests.Controllers
 {
@@ -24,6 +22,15 @@ namespace ChessInfo.Api.Tests.Controllers
         public IEnumerable<Player> GetPlayers(string lastName = null)
         {
             throw new NotImplementedException();
+        }
+
+        public void DeletePlayer(int playerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

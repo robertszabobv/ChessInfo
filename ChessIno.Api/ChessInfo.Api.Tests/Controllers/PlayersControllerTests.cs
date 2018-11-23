@@ -204,6 +204,20 @@ namespace ChessInfo.Api.Tests.Controllers
             Assert.IsInstanceOf<IEnumerable<Player>>(((OkObjectResult)result).Value);
         }
 
+        [Test]
+        public void DeletePlayer_Returns_NoContent_WhenPlayerDeleted()
+        {
+            const int playerId = 99;
+            bool isPlayerDeleted = false;
+            var repositoryMock = new Mock<IPlayersRepository>();
+            repositoryMock.Setup(r => r.DeletePlayer(playerId)).Callback(() => isPlayerDeleted = true);
+            var controller = new PlayersController(repositoryMock.Object);
+            IActionResult result = controller.Delete(playerId);
+
+            Assert.IsTrue(isPlayerDeleted);
+            Assert.IsInstanceOf<NoContentResult>(result);
+        }
+
         private bool AreTheSamePlayers(Player expected, Player actual)
         {
             return expected.FirstName.Equals(actual.FirstName)

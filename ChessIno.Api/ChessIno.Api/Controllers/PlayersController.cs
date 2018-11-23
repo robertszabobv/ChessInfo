@@ -19,40 +19,54 @@ namespace ChessInfo.Api.Controllers
         [HttpPost]
         public IActionResult CreatePlayer([FromBody]Player player)
         {
-            if (player == null || !player.IsValid)
+            using (_playersRepository)
             {
-                return BadRequest();
-            }
-            _playersRepository.AddPlayer(player);
-            return CreatedAtRoute(GetPlayerRouteName, new { playerId = player.PlayerId }, player);
+                if (player == null || !player.IsValid)
+                {
+                    return BadRequest();
+                }
+                _playersRepository.AddPlayer(player);
+                return CreatedAtRoute(GetPlayerRouteName, new { playerId = player.PlayerId }, player);
+            }                
         }
 
         [HttpGet("{playerId}", Name = GetPlayerRouteName)]
         public IActionResult GetPlayer(int playerId)
         {
-            var player = _playersRepository.GetById(playerId);
-            if (player == null)
+            using (_playersRepository)
             {
-                return NotFound();
-            }
-            return Ok(player);          
+                var player = _playersRepository.GetById(playerId);
+                if (player == null)
+                {
+                    return NotFound();
+                }
+                return Ok(player);
+            }                   
        }
 
         [HttpGet]
         public IActionResult GetPlayers([FromQuery]string lastName = null)
         {
-            IEnumerable<Player> players = _playersRepository.GetPlayers(lastName);
-            if (players == null || !players.Any())
+            using (_playersRepository)
             {
-                return NotFound();
+                IEnumerable<Player> players = _playersRepository.GetPlayers(lastName);
+                if (players == null || !players.Any())
+                {
+                    return NotFound();
+                }
+                return Ok(players);
             }
-            return Ok(players);
+            
         }
 
         [HttpDelete("{playerId}")]
         public IActionResult Delete(int playerId)
         {
-
+            using (_playersRepository)
+            {
+                _playersRepository.DeletePlayer(playerId);
+                return NoContent();
+            }                
         }
     }
 }

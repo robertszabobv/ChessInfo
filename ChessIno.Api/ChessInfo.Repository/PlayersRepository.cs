@@ -39,6 +39,11 @@ namespace ChessInfo.Repository
             return _context.Players.Where(Matching(lastName)).ToList();
         }
 
+        public void DeletePlayer(int playerId)
+        {
+            throw new NotImplementedException();
+        }
+
         private Func<Player, bool> Matching(string lastName)
         {
             return string.IsNullOrWhiteSpace(lastName)
