@@ -1,9 +1,9 @@
 'use strict';
 
 chessApp.controller('EditPlayerController',
-    function EditPlayerController($scope, playersService, $routeParams, $location) {       
+    function EditPlayerController($scope, playersService, $routeParams, $location, $log) {       
         $scope.player = getPlayer();
-        
+
         $scope.savePlayer = function(player, playerForm) {
             if(playerForm.$valid) {
                 playersService.savePlayer(player)
