@@ -1,11 +1,11 @@
-<div ng-controller="PlayersController" style="padding-left:20px; padding-right:20px;">
+<div style="padding-left:20px; padding-right:20px;">
                                   
         <h1>Players</h1>
         <hr/>
 
         <div class="row-fluid">
             <fieldset>
-                <a href="/editPlayer">
+                <a href="#/editPlayer">
                     <img id="addPlayer" ng-src="/img/add.png" style="width: 32px; height: 32px;" />
                 </a>
                 <input type="search" class="search" id="lastNameFilter" placeholder="find by last name..."
@@ -28,7 +28,7 @@
             </tr>
             <tr ng-repeat="player in players">
                 
-                <td><a href="" class="edit" ng-click="editPlayer(player)">{{player.firstName}}</a></td>
+                <td><a href="#/editPlayer/{{player.playerId}}" class="edit" >{{player.firstName}}</a></td>
                 <td>{{player.lastName}}</td>
                 <td style="text-align: right">{{player.rating}}</td>
                 <td><button type="button"><img id="deletePlayer" ng-src="/img/delete.png" 
