@@ -46,7 +46,8 @@
                     <th style="width: 10%"></th>
                 </tr>
                 <tr ng-repeat="player in players">
-                    <td>{{player.firstName}}</td>
+                    
+                    <td><a href="" class="edit" ng-click="editPlayer(player)">{{player.firstName}}</a></td>
                     <td>{{player.lastName}}</td>
                     <td style="text-align: right">{{player.rating}}</td>
                     <td><button type="button"><img id="deletePlayer" ng-src="/img/delete.png" 

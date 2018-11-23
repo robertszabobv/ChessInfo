@@ -21,6 +21,13 @@ th, td {
     margin: 10px;   
 }
 
+a.edit {
+    font-weight: bold;  
+    -webkit-text-fill-color: black; 
+    text-decoration: underline;
+}
+
+
 tr:nth-child(even) {background-color: white; color: black;}
 
 .hoverwell:hover {
