@@ -20,13 +20,18 @@ chessApp.factory('playersService', function($http, $log) {
             });
         },
 
-        getPlayers: function(successCallback, lastName) {          
+        getPlayers: function(successCallback, notFoundCallback, lastName) {          
             return $http.get(getPlayersUrl(lastName))
             .success(function(data, status, headers, config) {
                 successCallback(data);
             })
             .error(function(data, status, headers, config){
-                $log.warn(data, status, headers, config);
+                if(status === 404) {
+                    notFoundCallback();
+                }
+                else {
+                    $log.warn(data, status, headers, config);
+                };                
             });
         },              
     };

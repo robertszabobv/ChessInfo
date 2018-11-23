@@ -13,6 +13,14 @@ th, td {
     padding: 15px;
 }
 
+#noPlayers {
+    margin: 20px;    
+}
+
+.search {
+    margin: 10px;   
+}
+
 tr:nth-child(even) {background-color: white; color: black;}
 
 .hoverwell:hover {
