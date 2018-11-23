@@ -48,5 +48,11 @@ namespace ChessInfo.Api.Controllers
             }
             return Ok(players);
         }
+
+        [HttpDelete("{playerId}")]
+        public IActionResult Delete(int playerId)
+        {
+
+        }
     }
 }

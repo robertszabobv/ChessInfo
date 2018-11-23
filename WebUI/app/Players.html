@@ -49,7 +49,10 @@
                     <td>{{player.firstName}}</td>
                     <td>{{player.lastName}}</td>
                     <td style="text-align: right">{{player.rating}}</td>
-                    <td><button type="button"><img id="deletePlayer" ng-src="/img/delete.png" style="width: 32px; height: 32px;" title="delete"></button></td>
+                    <td><button type="button"><img id="deletePlayer" ng-src="/img/delete.png" 
+                        style="width: 32px; height: 32px;" title="delete" 
+                        ng-click="deletePlayer(player)"></button>
+                    </td>
                 </tr>
             </table>                     
         </div>

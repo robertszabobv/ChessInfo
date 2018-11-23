@@ -21,4 +21,16 @@ chessApp.controller('PlayersController',
                 },
                 $scope.filter);
         }
+
+        $scope.deletePlayer = function(player) {
+            playerService.deletePlayer(
+                function onPlayerDeleted() {
+
+                },
+                function onDeleteFailed() {
+                    
+                },
+                player.playerId
+            );
+        }
 });
