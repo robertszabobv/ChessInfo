@@ -20,7 +20,7 @@ namespace ChessInfo.Repository
             var optionsBuilder = new DbContextOptionsBuilder<ChessInfoContext>();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("ChessInfoContext"));
             _context = new ChessInfoContext(optionsBuilder.Options);
-            _context.Database.EnsureCreated();
+            //_context.Database.EnsureCreated();
         }
         
         public void AddPlayer(Player newPlayer)
