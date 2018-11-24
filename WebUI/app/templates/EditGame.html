@@ -2,7 +2,8 @@
     <div class="container">
         <h1>Game</h1>
         <hr/>
-        <form name="gameForm">
+        
+        <form name="gameForm" ng-show="canCreateGame()">
             <fieldset>
                 <label for="whitePlayer">White Player:</label>
                 <select id="whitePlayer" 
@@ -27,10 +28,17 @@
                     <option value="3">0-1</option>                
                 </select>
             </fieldset>
+
+            
+
             <br />
             <button type="submit" ng-click="saveGame(game, gameForm)" class="btn btn-primary">Save</button>
             <button type="button" ng-click="cancel()" class="btn btn-default">Cancel</button>
         </form>
+
+        <div class="noReults" ng-hide="canCreateGame()">
+            Please add at least two <a href="#/editPlayer" style="text-decoration: underline">players</a> before creating a game
+        </div>
     </div>
     
 </div>        

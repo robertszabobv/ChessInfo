@@ -1,7 +1,7 @@
 'use strict';
 
 chessApp.controller('EditGameController',
-    function EditGameController($scope, playersService, $routeParams, $location, $log) {
+    function EditGameController($scope, playersService, $routeParams, $location, $log, gamesService) {
         
         $scope.game = {};
         $scope.game.result = "1";
@@ -12,10 +12,10 @@ chessApp.controller('EditGameController',
             $scope.game.whitePlayer = players[0];
             $scope.game.blackPlayer = players[1];            
         }) ;
-
-        function canCreateGame() {
-            return areAtLeastTwoPlayers() && areWhiteAndBlackDifferentPlayers();
-        }
+        
+        $scope.canCreateGame = function() {
+            return areAtLeastTwoPlayers();
+        } 
 
         function areAtLeastTwoPlayers() {
             if($scope.players === undefined || $scope.players === null) {
@@ -29,8 +29,8 @@ chessApp.controller('EditGameController',
         }
         
         $scope.saveGame = function(game, gameForm) {
-            if(gameForm.$valid && canCreateGame()) {
-                alert('ok');
+            if(gameForm.$valid && areWhiteAndBlackDifferentPlayers()) {
+                gamesService.saveGame(game);
             }
         }
 
