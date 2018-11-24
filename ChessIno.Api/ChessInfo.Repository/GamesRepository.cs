@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ChessInfo.Domain;
 
 namespace ChessInfo.Repository
@@ -12,10 +13,13 @@ namespace ChessInfo.Repository
             Context.SaveChanges();
         }
 
-        public Game GetById { get; set; }
+        public Game GetById(int gameId)
+        {
+            return Context.Games.Single(g => g.GameId == gameId);
+        }
         public IEnumerable<Game> GetGames(string playerName = null, string openingClassification = null)
         {
-            throw new NotImplementedException();
+            return Context.Games.ToList();
         }
 
         public bool Update(Game game)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ChessInfo.Domain;
 using FizzWare.NBuilder;
 using NUnit.Framework;
@@ -16,6 +17,32 @@ namespace ChessInfo.Repository.Tests
             using (var repository = new GamesRepository())
             {
                 Assert.DoesNotThrow(() => repository.AddGame(game));
+            }
+        }
+
+        [Test]
+        public void GetById_ReturnsGameById()
+        {
+            var game = CreateGame();
+            using (var repository = new GamesRepository())
+            {
+                repository.AddGame(game);
+                var gameLoaded = repository.GetById(game.GameId);
+
+                Assert.IsNotNull(gameLoaded);
+            }
+        }
+
+        [Test]
+        public void GetGames_WithNoFilter_ReturnsAllGames()
+        {
+            var game = CreateGame();
+            using (var repository = new GamesRepository())
+            {
+                repository.AddGame(game);
+                IEnumerable<Game> gamesLoaded = repository.GetGames();
+
+                Assert.IsNotEmpty(gamesLoaded);
             }
         }
 
