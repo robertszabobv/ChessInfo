@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ChessInfo.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChessInfo.Repository
 {
@@ -17,8 +18,16 @@ namespace ChessInfo.Repository
         {
             return Context.Games.Single(g => g.GameId == gameId);
         }
-        public IEnumerable<Game> GetGames(string playerName = null, string openingClassification = null)
+        public IEnumerable<Game> GetGames(string playerLastName = null, string openingClassification = null)
         {
+            if (!string.IsNullOrWhiteSpace(playerLastName))
+            {
+                return Context.Games
+                    .Include(g => g.WhitePlayer)
+                    .Include(g => g.BlackPlayer)
+                    .Where(g => g.WhitePlayer.LastName.StartsWith(playerLastName) || g.BlackPlayer.LastName.StartsWith(playerLastName))
+                    .ToList();
+            }
             return Context.Games.ToList();
         }
 

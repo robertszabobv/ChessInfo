@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ChessInfo.Domain;
 using FizzWare.NBuilder;
 using NUnit.Framework;
@@ -10,6 +11,12 @@ namespace ChessInfo.Repository.Tests
     [Category("Integration tests")]
     public class GamesRepositoryTests
     {
+        private const string John = "John";
+        private const string Doe = "Doe";
+        private const string Vincent = "Vincent";
+        private const string Vega = "Vega";
+
+
         [Test]
         public void CreateGame_Succeeds()
         {
@@ -44,6 +51,24 @@ namespace ChessInfo.Repository.Tests
 
                 Assert.IsNotEmpty(gamesLoaded);
             }
+        }
+
+        [Test]
+        public void GetGames_ByPlayerLasName_ReturnsGamesWherePlayerParticipatedAsBlackOrWhite()
+        {
+            var game = CreateGame();
+            using (var repository = new GamesRepository())
+            {
+                repository.AddGame(game);
+                IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: John);
+
+                Assert.IsTrue(IsBlackOrWhitePlayerInAllGameByLastName(gamesLoaded));
+            }            
+        }
+
+        private bool IsBlackOrWhitePlayerInAllGameByLastName(IEnumerable<Game> games)
+        {
+            return games.All(g => g.WhitePlayer.LastName.StartsWith(Doe) || g.BlackPlayer.LastName.StartsWith(Doe));
         }
 
         private Game CreateGame()
@@ -85,8 +110,8 @@ namespace ChessInfo.Repository.Tests
         {
             return Builder<Player>.CreateNew()
                 .With(p => p.PlayerId = 0)
-                .With(p => p.FirstName = $"white{DateTime.Now.Ticks}")
-                .With(p => p.LastName = $"white{DateTime.Now.Ticks}")
+                .With(p => p.FirstName = $"{John}{DateTime.Now.Ticks}")
+                .With(p => p.LastName = $"{Doe}{DateTime.Now.Ticks}")
                 .With(p => p.Rating = 1100)
                 .Build();
         }
@@ -95,8 +120,8 @@ namespace ChessInfo.Repository.Tests
         {
             return Builder<Player>.CreateNew()
                 .With(p => p.PlayerId = 0)
-                .With(p => p.FirstName = $"black{DateTime.Now.Ticks}")
-                .With(p => p.LastName = $"black{DateTime.Now.Ticks}")
+                .With(p => p.FirstName = $"{Vincent}{DateTime.Now.Ticks}")
+                .With(p => p.LastName = $"{John}{DateTime.Now.Ticks}")
                 .With(p => p.Rating = 1200)
                 .Build();
         }

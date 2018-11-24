@@ -8,7 +8,7 @@ namespace ChessInfo.Domain
     {
         void AddGame(Game newGame);
         Game GetById(int gameId);
-        IEnumerable<Game> GetGames(string playerName = null, string openingClassification = null);
+        IEnumerable<Game> GetGames(string playerLastName = null, string openingClassification = null);
         bool Update(Game game);
         void DeleteGame(int gameId);        
     }
