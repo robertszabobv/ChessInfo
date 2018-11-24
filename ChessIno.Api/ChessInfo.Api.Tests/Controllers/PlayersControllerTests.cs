@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ChessInfo.Api.Controllers;
-using ChessInfo.Business;
 using ChessInfo.Domain;
 using FizzWare.NBuilder;
 using NUnit.Framework;
