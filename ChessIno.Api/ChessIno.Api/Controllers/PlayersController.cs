@@ -68,5 +68,22 @@ namespace ChessInfo.Api.Controllers
                 return NoContent();
             }                
         }
+
+        [HttpPut]
+        public IActionResult Update(Player player)
+        {
+            if (player == null || !player.IsValid)
+            {
+                return BadRequest();
+            }
+            using (_playersRepository)
+            {                
+                if (_playersRepository.Update(player))
+                {
+                    return NoContent();
+                }                
+            }
+            return NotFound();
+        }
     }
 }

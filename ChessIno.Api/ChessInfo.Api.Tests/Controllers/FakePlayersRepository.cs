@@ -29,6 +29,11 @@ namespace ChessInfo.Api.Tests.Controllers
             throw new NotImplementedException();
         }
 
+        public bool Update(Player player)
+        {
+            return true;
+        }
+
         public void Dispose()
         {
         }

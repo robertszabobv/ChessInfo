@@ -69,12 +69,12 @@ namespace ChessInfo.Api.Tests.Controllers
         }
 
         [Test]
-        public void CreatingPlayer_WithRatingZero_Returns_400()
+        public void CreatingPlayer_WithRatingZero_Returns_201()
         {
-            var controller = new PlayersController(playersRepository: null);
+            var controller = new PlayersController(new FakePlayersRepository());
             IActionResult result = controller.CreatePlayer(CreateNewPlayerWithZeroRating());
 
-            Assert.IsInstanceOf<BadRequestResult>(result);
+            Assert.IsInstanceOf<CreatedAtRouteResult>(result);
         }
 
         [Test]
@@ -216,6 +216,66 @@ namespace ChessInfo.Api.Tests.Controllers
 
             Assert.IsTrue(isPlayerDeleted);
             Assert.IsInstanceOf<NoContentResult>(result);
+        }
+
+        [Test]
+        public void UpdatePlayer_Returns_404_WhenPlayerNotFound()
+        {
+            Player playerToUpdate = CreateNewDummyPlayer();
+            var repositoryMock = new Mock<IPlayersRepository>();
+            repositoryMock.Setup(r => r.Update(playerToUpdate)).Returns(false);
+            var controller = new PlayersController(repositoryMock.Object);
+            IActionResult updateResult = controller.Update(playerToUpdate);
+            
+            Assert.IsInstanceOf<NotFoundResult>(updateResult);
+        }
+
+        [Test]
+        public void UpdatePlayer_Returns_400_WhenPlayerIsNull()
+        {
+            Player playerToUpdate = null;
+            var repositoryMock = new Mock<IPlayersRepository>();
+            var controller = new PlayersController(repositoryMock.Object);
+            // ReSharper disable once ExpressionIsAlwaysNull
+            IActionResult updateResult = controller.Update(playerToUpdate);
+
+            Assert.IsInstanceOf<BadRequestResult>(updateResult);
+        }
+
+        [Test]
+        public void UpdatingPlayer_WithEmptyFirstName_Returns_400()
+        {
+            var controller = new PlayersController(playersRepository: null);
+            IActionResult result = controller.Update(CreateNewPlayerWithEmptyFirstName());
+
+            Assert.IsInstanceOf<BadRequestResult>(result);
+        }
+
+        [Test]
+        public void UpdatingPlayer_WithNullLastName_Returns_400()
+        {
+            var controller = new PlayersController(playersRepository: null);
+            IActionResult result = controller.Update(CreateNewPlayerWithNullLastName());
+
+            Assert.IsInstanceOf<BadRequestResult>(result);
+        }
+
+        [Test]
+        public void UpdatingPlayer_WithRatingZero_Returns_NoContent()
+        {
+            var controller = new PlayersController(new FakePlayersRepository());
+            IActionResult result = controller.Update(CreateNewPlayerWithZeroRating());
+
+            Assert.IsInstanceOf<NoContentResult>(result);
+        }
+
+        [Test]
+        public void UpdatingPlayer_WithNegativeRating_Returns_400()
+        {
+            var controller = new PlayersController(playersRepository: null);
+            IActionResult result = controller.Update(CreateNewPlayerWithNegativeRating());
+
+            Assert.IsInstanceOf<BadRequestResult>(result);
         }
 
         private bool AreTheSamePlayers(Player expected, Player actual)

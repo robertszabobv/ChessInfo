@@ -45,6 +45,22 @@ namespace ChessInfo.Repository
             _context.Remove(playerToDelete);
             _context.SaveChanges();
         }
+       
+        public bool Update(Player player)
+        {
+            var playerToUpdate = GetById(player.PlayerId);
+            if (playerToUpdate == null)
+            {
+                return false;
+            }
+
+            playerToUpdate.FirstName = player.FirstName;
+            playerToUpdate.LastName = player.LastName;
+            playerToUpdate.Rating = player.Rating;
+            int noOfRowsAffected = _context.SaveChanges();
+
+            return noOfRowsAffected > 0;
+        }
 
         private Func<Player, bool> Matching(string lastName)
         {

@@ -17,6 +17,6 @@ namespace ChessInfo.Business
         [JsonIgnore]
         public bool IsValid => !string.IsNullOrWhiteSpace(FirstName)
                                && !string.IsNullOrWhiteSpace(LastName)
-                               && Rating > 0;
+                               && Rating >= 0;
     }
 }

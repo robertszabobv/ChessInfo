@@ -6,7 +6,10 @@ chessApp.factory('playersService', function($http, $log) {
     };
 
     return {
-        savePlayer: function(player) {      
+        savePlayer: function(player) {
+            if (player.playerId === undefined) {
+                return $http.put('/api/players', player); 
+            }
             return $http.post('/api/players', player);        
         },
 

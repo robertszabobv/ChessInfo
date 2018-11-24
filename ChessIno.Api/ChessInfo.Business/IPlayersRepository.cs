@@ -9,5 +9,7 @@ namespace ChessInfo.Business
         Player GetById(int playerId);
         IEnumerable<Player> GetPlayers(string lastName = null);
         void DeletePlayer(int playerId);
+        bool Update(Player player);
+
     }
 }
