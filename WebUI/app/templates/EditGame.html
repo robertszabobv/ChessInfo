@@ -19,7 +19,7 @@
                 <label for="gameDate">Date:</label>
                 <input id="gameDate" type="date" required ng-model="game.gameDate" />  
                 <label for="openingClassification">Opening Classification:</label>
-                <input id="openingClassification" type="text" required ng-pattern="/[A-E]\d{2}/" 
+                <input id="openingClassification" type="text" required ng-pattern="/[A-E]\d{2}/g" 
                     ng-model="game.openingClassification" placeholder="A-E followed by two digits..."   />   
                 <label for="result">Result:</label>
                 <select id="result" ng-model="game.result">
