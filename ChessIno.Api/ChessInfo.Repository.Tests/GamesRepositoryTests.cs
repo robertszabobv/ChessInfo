@@ -117,9 +117,9 @@ namespace ChessInfo.Repository.Tests
 
         private Player AddWBlackPlayer()
         {
-            var whitePlayer = CreateBlackPlayer();
-            SavePlayer(whitePlayer);
-            return whitePlayer;
+            var blackPlayer = CreateBlackPlayer();
+            SavePlayer(blackPlayer);
+            return blackPlayer;
         }
 
         private void SavePlayer(Player player)
