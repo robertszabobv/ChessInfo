@@ -90,6 +90,19 @@ namespace ChessInfo.Repository.Tests
             }
         }
 
+        [Test]
+        public void GetGames_ByPlayerFirstName_ReturnsEmpty()
+        {
+            var game = CreateGame();
+            using (var repository = new GamesRepository())
+            {
+                repository.AddGame(game);
+                IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: Vincent);
+
+                Assert.IsEmpty(gamesLoaded);
+            }
+        }
+
         private bool IsBlackOrWhitePlayerInAllGameByLastName(IEnumerable<Game> games, string playerLastName)
         {
             return games.All(g => g.WhitePlayer.LastName.StartsWith(playerLastName) || g.BlackPlayer.LastName.StartsWith(playerLastName));
