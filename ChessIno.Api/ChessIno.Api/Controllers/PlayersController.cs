@@ -70,7 +70,7 @@ namespace ChessInfo.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(Player player)
+        public IActionResult Update([FromBody]Player player)
         {
             if (player == null || !player.IsValid)
             {

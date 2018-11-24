@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using FizzWare.NBuilder;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -32,12 +33,15 @@ namespace ChessInfo.Api.IntegrationTests
             HttpClient client = CreateHttpClient();
             Uri newPlayerUri = SendHttpPostToCreateNewDummyPlayer(client);
             Player playerLoaded = SendHttpGetPlayer(client, newPlayerUri);
-            
             Assert.IsTrue(playerLoaded.PlayerId > 0);
+
+            var playersUri = new Uri($"{_serviceBaseUrl}/{PlayersRelativeUrl}");
+            SendHttpPutToCUpdatePlayer(client, playersUri, playerLoaded).Wait();
+            Player playerUpdated = SendHttpGetPlayer(client, newPlayerUri);
+            Assert.IsTrue(playerUpdated.LastName == "updated by http put");
 
             SendHttpDeletePlayer(client, newPlayerUri);
             Player playerAfterDelete = SendHttpGetPlayer(client, newPlayerUri);
-
             Assert.IsNull(playerAfterDelete);
         }
 
@@ -51,6 +55,7 @@ namespace ChessInfo.Api.IntegrationTests
             Assert.IsNotNull(players);
             Assert.IsNotEmpty(players);
         }
+
 
         private IEnumerable<Player> SendHttpGetPlayers(HttpClient client)
         {
@@ -85,6 +90,13 @@ namespace ChessInfo.Api.IntegrationTests
             StringContent playerHttpContent = CreateHttpContentFrom(player);
             var response = client.PostAsync(createPlayerUri, playerHttpContent).Result;
             return response.Headers.Location;
+        }
+
+        private async Task SendHttpPutToCUpdatePlayer(HttpClient client, Uri playerUri, Player player)
+        {
+            player.LastName = "updated by http put";
+            StringContent playerHttpContent = CreateHttpContentFrom(player);
+            await client.PutAsync(playerUri, playerHttpContent);
         }
 
         private static StringContent CreateHttpContentFrom(Player player)
