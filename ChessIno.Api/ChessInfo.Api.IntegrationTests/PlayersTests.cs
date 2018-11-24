@@ -16,6 +16,7 @@ namespace ChessInfo.Api.IntegrationTests
     {
         private static string _serviceBaseUrl;
         private const string PlayersRelativeUrl = "players";
+        const string UpdatedLastName = "updated by http put";
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -38,7 +39,8 @@ namespace ChessInfo.Api.IntegrationTests
             var playersUri = new Uri($"{_serviceBaseUrl}/{PlayersRelativeUrl}");
             SendHttpPutToCUpdatePlayer(client, playersUri, playerLoaded).Wait();
             Player playerUpdated = SendHttpGetPlayer(client, newPlayerUri);
-            Assert.IsTrue(playerUpdated.LastName == "updated by http put");
+            
+            Assert.IsTrue(playerUpdated.LastName == UpdatedLastName);
 
             SendHttpDeletePlayer(client, newPlayerUri);
             Player playerAfterDelete = SendHttpGetPlayer(client, newPlayerUri);
@@ -94,7 +96,7 @@ namespace ChessInfo.Api.IntegrationTests
 
         private async Task SendHttpPutToCUpdatePlayer(HttpClient client, Uri playerUri, Player player)
         {
-            player.LastName = "updated by http put";
+            player.LastName = UpdatedLastName;
             StringContent playerHttpContent = CreateHttpContentFrom(player);
             await client.PutAsync(playerUri, playerHttpContent);
         }
