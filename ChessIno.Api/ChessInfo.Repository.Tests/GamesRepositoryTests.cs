@@ -54,7 +54,7 @@ namespace ChessInfo.Repository.Tests
         }
 
         [Test]
-        public void GetGames_ByPlayerLasName_ReturnsGamesWherePlayerParticipatedAsBlackOrWhite()
+        public void GetGames_ByPlayerLasName_ReturnsGamesWherePlayerParticipatedAsBlack()
         {
             var game = CreateGame();
             using (var repository = new GamesRepository())
@@ -64,6 +64,19 @@ namespace ChessInfo.Repository.Tests
 
                 Assert.IsTrue(IsBlackOrWhitePlayerInAllGameByLastName(gamesLoaded));
             }            
+        }
+
+        [Test]
+        public void GetGames_ByPlayerLasName_ReturnsGamesWherePlayerParticipatedAsWhite()
+        {
+            var game = CreateGame();
+            using (var repository = new GamesRepository())
+            {
+                repository.AddGame(game);
+                IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: Doe);
+
+                Assert.IsTrue(IsBlackOrWhitePlayerInAllGameByLastName(gamesLoaded));
+            }
         }
 
         [Test]
