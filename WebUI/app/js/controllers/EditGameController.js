@@ -25,7 +25,7 @@ chessApp.controller('EditGameController',
         }
 
         function areWhiteAndBlackDifferentPlayers() {
-            return $scope.game.whitePlayer.playerId !== $scope.game.blackPlayer.playerId;
+            return $scope.game.whitePlayer !== $scope.game.blackPlayer;
         }
         
         $scope.saveGame = function(game, gameForm) {
