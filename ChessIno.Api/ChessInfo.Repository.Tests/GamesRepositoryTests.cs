@@ -14,7 +14,7 @@ namespace ChessInfo.Repository.Tests
         private const string John = "John";
         private const string Doe = "Doe";
         private const string Vincent = "Vincent";
-        private const string Vega = "Vega";
+        private const string NonExistentName = "NonExistentName";
 
 
         [Test]
@@ -64,6 +64,17 @@ namespace ChessInfo.Repository.Tests
 
                 Assert.IsTrue(IsBlackOrWhitePlayerInAllGameByLastName(gamesLoaded));
             }            
+        }
+
+        [Test]
+        public void GetGames_ByNonExistentPlayerLasName_ReturnsEmpty()
+        {
+            using (var repository = new GamesRepository())
+            {
+                IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: NonExistentName);
+
+                Assert.IsEmpty(gamesLoaded);
+            }
         }
 
         private bool IsBlackOrWhitePlayerInAllGameByLastName(IEnumerable<Game> games)
