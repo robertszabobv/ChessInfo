@@ -278,6 +278,15 @@ namespace ChessInfo.Api.Tests.Controllers
             Assert.IsInstanceOf<BadRequestResult>(result);
         }
 
+        [Test]
+        public void UpdatingPlayer_Returns_NoContent()
+        {
+            var controller = new PlayersController(new FakePlayersRepository());
+            IActionResult result = controller.Update(CreateNewDummyPlayer());
+
+            Assert.IsInstanceOf<NoContentResult>(result);
+        }
+
         private bool AreTheSamePlayers(Player expected, Player actual)
         {
             return expected.FirstName.Equals(actual.FirstName)

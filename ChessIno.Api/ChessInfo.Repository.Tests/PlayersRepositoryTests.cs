@@ -111,6 +111,29 @@ namespace ChessInfo.Repository.Tests
             }
         }
 
+        [Test]
+        public void UpdatePlayer_UpdatesPlayer()
+        {
+            string lastName = DateTime.Now.DayOfWeek.ToString();
+            using (var repository = new PlayersRepository())
+            {
+                repository.AddPlayer(CreatePlayerWithLastName(lastName));
+                Player playerToUpdate = repository.GetPlayers(lastName).First();
+                playerToUpdate.FirstName = "updated fn";
+                playerToUpdate.LastName = "updated ln";
+                playerToUpdate.Rating = 3000;
+
+                repository.Update(playerToUpdate);
+
+                Player playerReloaded = repository.GetById(playerToUpdate.PlayerId);
+
+                Assert.IsTrue(
+                    playerReloaded.FirstName == "updated fn"
+                    && playerReloaded.LastName == "updated ln"
+                    && playerReloaded.Rating == 3000);
+            }
+        }
+
         private void AddPlayer(Player player)
         {
             using (var repository = new PlayersRepository())
