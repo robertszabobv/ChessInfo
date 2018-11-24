@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using ChessInfo.Domain;
 
 namespace ChessInfo.Repository
 {
-    public class GamesRepository : IGamesRepository
-    {
-        private readonly ChessInfoContext _context;
-        
+    public class GamesRepository : BaseRepository, IGamesRepository
+    {        
         public void AddGame(Game newGame)
         {
-            throw new NotImplementedException();
+            Context.Games.Add(newGame);
+            Context.SaveChanges();
         }
 
         public Game GetById { get; set; }
@@ -28,11 +26,6 @@ namespace ChessInfo.Repository
         public void DeleteGame(int gameId)
         {
             throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            _context?.Dispose();
-        }
+        }        
     }
 }
