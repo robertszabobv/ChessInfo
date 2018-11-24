@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ChessInfo.Domain;
 
 namespace ChessInfo.Business
 {

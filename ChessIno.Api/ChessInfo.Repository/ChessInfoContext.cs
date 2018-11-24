@@ -1,4 +1,4 @@
-﻿using ChessInfo.Business;
+﻿using ChessInfo.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChessInfo.Repository

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ChessInfo.Business;
+using ChessInfo.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

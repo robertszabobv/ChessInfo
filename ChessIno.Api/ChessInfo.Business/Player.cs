@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
-namespace ChessInfo.Business
+namespace ChessInfo.Domain
 {
     public class Player
     {

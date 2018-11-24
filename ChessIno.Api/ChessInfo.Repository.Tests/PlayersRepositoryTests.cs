@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using ChessInfo.Business;
+using ChessInfo.Domain;
 using FizzWare.NBuilder;
 using NUnit.Framework;
 

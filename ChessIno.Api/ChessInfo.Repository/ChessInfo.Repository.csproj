@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChessInfo.Business\ChessInfo.Business.csproj" />
+    <ProjectReference Include="..\ChessInfo.Business\ChessInfo.Domain.csproj" />
   </ItemGroup>
 
 </Project>

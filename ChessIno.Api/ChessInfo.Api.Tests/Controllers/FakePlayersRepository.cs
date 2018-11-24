@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ChessInfo.Business;
+using ChessInfo.Domain;
 
 namespace ChessInfo.Api.Tests.Controllers
 {

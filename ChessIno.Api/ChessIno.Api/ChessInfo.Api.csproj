@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChessInfo.Business\ChessInfo.Business.csproj" />
+    <ProjectReference Include="..\ChessInfo.Business\ChessInfo.Domain.csproj" />
     <ProjectReference Include="..\ChessInfo.Repository\ChessInfo.Repository.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ChessInfo.Business;
+using ChessInfo.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 
