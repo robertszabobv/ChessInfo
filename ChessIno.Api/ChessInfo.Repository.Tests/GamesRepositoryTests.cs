@@ -62,7 +62,7 @@ namespace ChessInfo.Repository.Tests
                 repository.AddGame(game);
                 IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: John);
 
-                Assert.IsTrue(IsBlackOrWhitePlayerInAllGameByLastName(gamesLoaded));
+                Assert.IsTrue(IsBlackOrWhitePlayerInAllGameByLastName(gamesLoaded, John));
             }            
         }
 
@@ -75,7 +75,7 @@ namespace ChessInfo.Repository.Tests
                 repository.AddGame(game);
                 IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: Doe);
 
-                Assert.IsTrue(IsBlackOrWhitePlayerInAllGameByLastName(gamesLoaded));
+                Assert.IsTrue(IsBlackOrWhitePlayerInAllGameByLastName(gamesLoaded, Doe));
             }
         }
 
@@ -90,9 +90,9 @@ namespace ChessInfo.Repository.Tests
             }
         }
 
-        private bool IsBlackOrWhitePlayerInAllGameByLastName(IEnumerable<Game> games)
+        private bool IsBlackOrWhitePlayerInAllGameByLastName(IEnumerable<Game> games, string playerLastName)
         {
-            return games.All(g => g.WhitePlayer.LastName.StartsWith(Doe) || g.BlackPlayer.LastName.StartsWith(Doe));
+            return games.All(g => g.WhitePlayer.LastName.StartsWith(playerLastName) || g.BlackPlayer.LastName.StartsWith(playerLastName));
         }
 
         private Game CreateGame()
