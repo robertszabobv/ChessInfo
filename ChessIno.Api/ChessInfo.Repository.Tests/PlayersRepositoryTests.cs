@@ -123,7 +123,9 @@ namespace ChessInfo.Repository.Tests
                 playerToUpdate.LastName = "updated ln";
                 playerToUpdate.Rating = 3000;
 
-                repository.Update(playerToUpdate);
+                bool updatePerformed = repository.Update(playerToUpdate);
+
+                Assert.IsTrue(updatePerformed);
 
                 Player playerReloaded = repository.GetById(playerToUpdate.PlayerId);
 
@@ -132,6 +134,19 @@ namespace ChessInfo.Repository.Tests
                     && playerReloaded.LastName == "updated ln"
                     && playerReloaded.Rating == 3000);
             }
+        }
+
+        [Test]
+        public void UpdatePlayer_Returns_False_WhenNoUpdatePerformed()
+        {
+            bool updatePerformed;
+            var nonExistentPlayer = CreateNewDummyPlayer();
+            using (var repository = new PlayersRepository())
+            {
+                updatePerformed = repository.Update(nonExistentPlayer);
+            }
+
+            Assert.IsFalse(updatePerformed);
         }
 
         private void AddPlayer(Player player)
