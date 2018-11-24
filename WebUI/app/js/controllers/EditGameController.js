@@ -10,19 +10,26 @@ chessApp.controller('EditGameController',
         playersService.getPlayers(function OnPlayersLoaded(players) {
             $scope.players = players;
             $scope.game.whitePlayer = players[0];
-            $scope.game.blackPlayer = players[1];
-            $scope.canCreateGame = areAtLeastTwoPlayers(players);
+            $scope.game.blackPlayer = players[1];            
         }) ;
 
-        function areAtLeastTwoPlayers(players) {
-            if(players === undefined || players === null) {
+        function canCreateGame() {
+            return areAtLeastTwoPlayers() && areWhiteAndBlackDifferentPlayers();
+        }
+
+        function areAtLeastTwoPlayers() {
+            if($scope.players === undefined || $scope.players === null) {
                 return false;
             }
-            return players.length > 2;
+            return $scope.players.length > 2;
+        }
+
+        function areWhiteAndBlackDifferentPlayers() {
+            return $scope.game.whitePlayer.playerId !== $scope.game.blackPlayer.playerId;
         }
         
         $scope.saveGame = function(game, gameForm) {
-            if(gameForm.$valid) {
+            if(gameForm.$valid && canCreateGame()) {
                 alert('ok');
             }
         }
