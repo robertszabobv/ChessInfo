@@ -7,14 +7,14 @@
             <fieldset>
                 <label for="whitePlayer">White Player:</label>
                 <select id="whitePlayer" 
-                    ng-model="selectedWhitePlayer"
+                    ng-model="game.whitePlayer"
                     ng-options="item.firstName + ' ' + item.lastName for item in players">
                 </select>
 
               
                 <label for="blackPlayer">Black Player:</label>
                 <select id="blackPlayer" 
-                    ng-model="selectedBlackPlayer"
+                    ng-model="game.blackPlayer"
                     ng-options="item.firstName + ' ' + item.lastName for item in players">
                 </select>
 
@@ -24,7 +24,7 @@
                 <input id="openingClassification" type="text" required ng-pattern="/[A-E]\d{2}/" placeholder="A-E followed by two digits..."   />   
                 <label for="result">Result:</label>
                 <select id="result" ng-model="game.result">
-                    <option value="1" selected>1-0</option>
+                    <option value="1">1-0</option>
                     <option value="2">0.5-0.5</option>
                     <option value="3">0-1</option>                
                 </select>
