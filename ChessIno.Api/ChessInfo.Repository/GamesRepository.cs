@@ -68,7 +68,12 @@ namespace ChessInfo.Repository
 
         public void DeleteGame(int gameId)
         {
-            throw new NotImplementedException();
+            var gameToDelete = GetById(gameId);
+            if (gameToDelete != null)
+            {
+                Context.Games.Remove(gameToDelete);
+                Context.SaveChanges();
+            }
         }        
     }
 }

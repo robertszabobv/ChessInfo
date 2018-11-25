@@ -179,7 +179,6 @@ namespace ChessInfo.Repository.Tests
                       && b99Game.GameDate == DateTime.Today.AddYears(-1)
                       && b99Game.GameResult == (int)GameResultTypes.Draw
                       && b99Game.OpeningClassification == d10);
-
             }
         }
 
@@ -195,6 +194,21 @@ namespace ChessInfo.Repository.Tests
                 Assert.IsFalse(isUpdated);
             }            
         }
+
+        [Test]
+        public void DeleteGame_DeletesGame()
+        {
+            var b99Game = CreateGame(B99);
+            using (var repository = new GamesRepository())
+            {
+                repository.AddGame(b99Game);
+                repository.DeleteGame(b99Game.GameId);
+                var gameReloaded = repository.GetById(b99Game.GameId);
+
+                Assert.IsNull(gameReloaded);
+            }
+        }
+
 
         private bool IsWhiteOrBlackPlayerLastNameMatchingSearchedValue(Game game)
         {
