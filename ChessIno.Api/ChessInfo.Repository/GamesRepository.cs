@@ -28,6 +28,15 @@ namespace ChessInfo.Repository
                     .Where(g => g.WhitePlayer.LastName.StartsWith(playerLastName) || g.BlackPlayer.LastName.StartsWith(playerLastName))
                     .ToList();
             }
+
+            if (!string.IsNullOrWhiteSpace(openingClassification))
+            {
+                return Context.Games
+                    .Include(g => g.WhitePlayer)
+                    .Include(g => g.BlackPlayer)
+                    .Where(g => g.OpeningClassification.StartsWith(openingClassification, StringComparison.Ordinal))
+                    .ToList();
+            }
             return Context.Games.ToList();
         }
 

@@ -15,12 +15,14 @@ namespace ChessInfo.Repository.Tests
         private const string Doe = "Doe";
         private const string Vincent = "Vincent";
         private const string NonExistentName = "NonExistentName";
+        private const string A01 = "A01";
+        private const string B99 = "B99";
 
 
         [Test]
         public void CreateGame_Succeeds()
         {
-            var game = CreateGame();
+            var game = CreateGame(A01);
             using (var repository = new GamesRepository())
             {
                 Assert.DoesNotThrow(() => repository.AddGame(game));
@@ -30,7 +32,7 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void GetById_ReturnsGameById()
         {
-            var game = CreateGame();
+            var game = CreateGame(B99);
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(game);
@@ -43,7 +45,7 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void GetGames_WithNoFilter_ReturnsAllGames()
         {
-            var game = CreateGame();
+            var game = CreateGame(A01);
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(game);
@@ -56,7 +58,7 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void GetGames_ByPlayerLasName_ReturnsGamesWherePlayerParticipatedAsBlack()
         {
-            var game = CreateGame();
+            var game = CreateGame(B99);
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(game);
@@ -69,7 +71,7 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void GetGames_ByPlayerLasName_ReturnsGamesWherePlayerParticipatedAsWhite()
         {
-            var game = CreateGame();
+            var game = CreateGame(A01);
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(game);
@@ -93,11 +95,43 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void GetGames_ByPlayerFirstName_ReturnsEmpty()
         {
-            var game = CreateGame();
+            var game = CreateGame(B99);
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(game);
                 IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: Vincent);
+
+                Assert.IsEmpty(gamesLoaded);
+            }
+        }
+
+        [Test]
+        public void GetPlayersBy_OpeningClassification_ReturnsGamesStartingWithSearchingValue()
+        {
+            const string searchingFor = "B";
+            var b99Game = CreateGame(B99);
+            var a01Game = CreateGame(A01);
+            using (var repository = new GamesRepository())
+            {
+                repository.AddGame(b99Game);
+                repository.AddGame(a01Game);
+                IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: null, openingClassification: searchingFor);
+
+                Assert.IsTrue(gamesLoaded.All(g => g.OpeningClassification.StartsWith(searchingFor)));
+            }
+        }
+
+        [Test]
+        public void GetPlayersBy_OpeningClassification_ReturnsEmptyForLowerCase()
+        {
+            const string searchingFor = "b";
+            var b99Game = CreateGame(B99);
+            var a01Game = CreateGame(A01);
+            using (var repository = new GamesRepository())
+            {
+                repository.AddGame(b99Game);
+                repository.AddGame(a01Game);
+                IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: null, openingClassification: searchingFor);
 
                 Assert.IsEmpty(gamesLoaded);
             }
@@ -108,7 +142,7 @@ namespace ChessInfo.Repository.Tests
             return games.All(g => g.WhitePlayer.LastName.StartsWith(playerLastName) || g.BlackPlayer.LastName.StartsWith(playerLastName));
         }
 
-        private Game CreateGame()
+        private Game CreateGame(string openingClassification)
         {
             var whitePlayer = AddWhitePlayer();
             var blackPlayer = AddWBlackPlayer();
@@ -118,6 +152,7 @@ namespace ChessInfo.Repository.Tests
                 .With(g => g.BlackPlayerId = blackPlayer.PlayerId)
                 .With(g => g.GameDate = DateTime.Now)
                 .With(g => g.ResultDetail = new GameResultDetail(GameResultTypes.WhiteWins))
+                .With(g => g.OpeningClassification = openingClassification)
                 .Build();
         }
 

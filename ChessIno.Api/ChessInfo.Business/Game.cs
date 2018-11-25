@@ -21,6 +21,11 @@ namespace ChessInfo.Domain
         public DateTime GameDate { get; set; }
 
         [Required]
+        [MaxLength(3)]
+        [MinLength(3)]
+        public string OpeningClassification { get; set; }
+
+        [Required]
         public byte GameResult
         {
             get => _gameResult;
