@@ -155,6 +155,33 @@ namespace ChessInfo.Repository.Tests
             }
         }
 
+        [Test]
+        public void UpdateGame_UpdatesGame()
+        {
+            const string d10 = "D10";
+            var b99Game = CreateGame(B99);
+            using (var repository = new GamesRepository())
+            {
+                repository.AddGame(b99Game);
+                var newWhitePlayer = AddWhitePlayer();
+                var newBlackPlayer = AddWBlackPlayer();
+                b99Game.WhitePlayerId = newWhitePlayer.PlayerId;
+                b99Game.BlackPlayerId = newBlackPlayer.PlayerId;
+                b99Game.GameDate = DateTime.Today.AddYears(-1);
+                b99Game.ResultDetail = new GameResultDetail(GameResultTypes.Draw);
+                b99Game.OpeningClassification = d10;
+                repository.Update(b99Game);
+                repository.GetById(b99Game.BlackPlayerId);
+
+                Assert.IsTrue(b99Game.WhitePlayerId == newWhitePlayer.PlayerId
+                              && b99Game.BlackPlayerId == newBlackPlayer.PlayerId
+                              && b99Game.GameDate == DateTime.Today.AddYears(-1)
+                              && b99Game.GameResult == (int)GameResultTypes.Draw
+                              && b99Game.OpeningClassification == d10);
+
+            }
+        }
+
         private bool IsWhiteOrBlackPlayerLastNameMatchingSearchedValue(Game game, string searchedLastName)
         {
             return game.WhitePlayer.LastName.StartsWith(Doe) || game.BlackPlayer.LastName.StartsWith(Doe);

@@ -16,7 +16,7 @@ namespace ChessInfo.Repository
 
         public Game GetById(int gameId)
         {
-            return Context.Games.Single(g => g.GameId == gameId);
+            return Context.Games.SingleOrDefault(g => g.GameId == gameId);
         }
         public IEnumerable<Game> GetGames(string playerLastName = null, string openingClassification = null)
         {
@@ -49,7 +49,21 @@ namespace ChessInfo.Repository
 
         public bool Update(Game game)
         {
-            throw new NotImplementedException();
+            var gameToUpdate = GetById(game.GameId);
+            if (gameToUpdate == null)
+            {
+                return false;   
+            }
+
+            gameToUpdate.WhitePlayerId = game.WhitePlayerId;
+            gameToUpdate.BlackPlayerId = game.BlackPlayerId;
+            gameToUpdate.GameDate = game.GameDate;
+            gameToUpdate.GameResult = game.GameResult;
+            gameToUpdate.OpeningClassification = game.OpeningClassification;
+            int rowsAffected = Context.SaveChanges();
+
+            return rowsAffected > 0;
+
         }
 
         public void DeleteGame(int gameId)
