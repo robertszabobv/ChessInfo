@@ -207,6 +207,7 @@ namespace ChessInfo.Api.Tests.Controllers
             Assert.IsInstanceOf<OkObjectResult>(result);
         }
 
+
         private Game CreateDummyGame()
         {
             return Builder<Game>.CreateNew()
