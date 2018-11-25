@@ -106,7 +106,7 @@ namespace ChessInfo.Repository.Tests
         }
 
         [Test]
-        public void GetPlayersBy_OpeningClassification_ReturnsGamesStartingWithSearchingValue()
+        public void GetGamesBy_OpeningClassification_ReturnsGamesStartingWithSearchingValue()
         {
             const string searchingFor = "B";
             var b99Game = CreateGame(B99);
@@ -122,7 +122,7 @@ namespace ChessInfo.Repository.Tests
         }
 
         [Test]
-        public void GetPlayersBy_OpeningClassification_ReturnsEmptyForLowerCase()
+        public void GetGamesBy_OpeningClassification_ReturnsEmptyForLowerCase()
         {
             const string searchingFor = "b";
             var b99Game = CreateGame(B99);
@@ -135,6 +135,29 @@ namespace ChessInfo.Repository.Tests
 
                 Assert.IsEmpty(gamesLoaded);
             }
+        }
+
+        [Test]
+        public void GetGamesBy_LastNameAndOpeningClassification_ReturnsGamesMatchingSpecificPlayerAndOpeningClassification()
+        {
+            const string searchedOpeningClassification = "A0";
+            var b99Game = CreateGame(B99);
+            var a01Game = CreateGame(A01);
+            using (var repository = new GamesRepository())
+            {
+                repository.AddGame(b99Game);
+                repository.AddGame(a01Game);
+                IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: Doe, openingClassification: searchedOpeningClassification);
+
+                Assert.IsTrue(gamesLoaded.All(
+                    g => (IsWhiteOrBlackPlayerLastNameMatchingSearchedValue(g, Doe))
+                        && g.OpeningClassification.StartsWith(searchedOpeningClassification)));
+            }
+        }
+
+        private bool IsWhiteOrBlackPlayerLastNameMatchingSearchedValue(Game game, string searchedLastName)
+        {
+            return game.WhitePlayer.LastName.StartsWith(Doe) || game.BlackPlayer.LastName.StartsWith(Doe);
         }
 
         private bool IsBlackOrWhitePlayerInAllGameByLastName(IEnumerable<Game> games, string playerLastName)
