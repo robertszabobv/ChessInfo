@@ -183,6 +183,19 @@ namespace ChessInfo.Repository.Tests
             }
         }
 
+        [Test]
+        public void UpdateGame_ReturnsFalse_WhenUpdatingANonExistingGame()
+        {
+            var dummyGame = CreateGame(A01);
+            dummyGame.GameId = -1;
+            using (var repository = new GamesRepository())
+            {
+                bool isUpdated = repository.Update(dummyGame);
+
+                Assert.IsFalse(isUpdated);
+            }            
+        }
+
         private bool IsWhiteOrBlackPlayerLastNameMatchingSearchedValue(Game game, string searchedLastName)
         {
             return game.WhitePlayer.LastName.StartsWith(Doe) || game.BlackPlayer.LastName.StartsWith(Doe);
