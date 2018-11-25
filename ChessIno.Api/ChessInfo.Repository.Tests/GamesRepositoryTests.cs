@@ -170,14 +170,15 @@ namespace ChessInfo.Repository.Tests
                 b99Game.GameDate = DateTime.Today.AddYears(-1);
                 b99Game.ResultDetail = new GameResultDetail(GameResultTypes.Draw);
                 b99Game.OpeningClassification = d10;
-                repository.Update(b99Game);
+                bool isUpdated = repository.Update(b99Game);
                 repository.GetById(b99Game.BlackPlayerId);
 
-                Assert.IsTrue(b99Game.WhitePlayerId == newWhitePlayer.PlayerId
-                              && b99Game.BlackPlayerId == newBlackPlayer.PlayerId
-                              && b99Game.GameDate == DateTime.Today.AddYears(-1)
-                              && b99Game.GameResult == (int)GameResultTypes.Draw
-                              && b99Game.OpeningClassification == d10);
+                Assert.IsTrue(isUpdated
+                      && b99Game.WhitePlayerId == newWhitePlayer.PlayerId
+                      && b99Game.BlackPlayerId == newBlackPlayer.PlayerId
+                      && b99Game.GameDate == DateTime.Today.AddYears(-1)
+                      && b99Game.GameResult == (int)GameResultTypes.Draw
+                      && b99Game.OpeningClassification == d10);
 
             }
         }
