@@ -50,9 +50,11 @@ namespace ChessInfo.Domain
 
         [NotMapped]
         public bool IsValid => WhitePlayerId > 0
-                               && BlackPlayerId > 9
+                               && BlackPlayerId > 0
                                && WhitePlayerId != BlackPlayerId
+                               && GameDate > DateTime.MinValue
                                && GameResult > 0 && GameResult < 4
-                               && Regex.IsMatch(OpeningClassification, @"/[A-E]\d{2}/g");
+                               && !string.IsNullOrWhiteSpace(OpeningClassification)
+                               && Regex.IsMatch(OpeningClassification, @"[A-E]\d{2}");
     }
 }
