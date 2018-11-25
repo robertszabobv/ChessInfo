@@ -1,4 +1,6 @@
-﻿using ChessInfo.Domain;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ChessInfo.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChessInfo.Api.Controllers
@@ -40,6 +42,20 @@ namespace ChessInfo.Api.Controllers
                     return NotFound();
                 }
                 return Ok(game);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetGames([FromQuery]string playerLastName = null, string openingClassification = null)
+        {
+            using (_gamesRepository)
+            {
+                IEnumerable<Game> games = _gamesRepository.GetGames(playerLastName, openingClassification);
+                if (games == null || !games.Any())
+                {
+                    return NotFound();
+                }
+                return Ok(games);
             }
         }
     }

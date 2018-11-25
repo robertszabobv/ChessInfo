@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using ChessInfo.Api.Controllers;
 using ChessInfo.Domain;
 using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using NUnit.Framework;
 
 namespace ChessInfo.Api.Tests.Controllers
@@ -179,6 +181,41 @@ namespace ChessInfo.Api.Tests.Controllers
             IActionResult result = controller.CreateGame(game);
 
             Assert.IsInstanceOf<CreatedAtRouteResult>(result);
+        }
+
+        [Test]
+        public void FilterGamesByPlayerLastName_Returns_404_WhenNoMatchingGamesFound()
+        {
+            const string nonExistentLastName = "foo";
+            var repositoryMock = new Mock<IGamesRepository>();
+            repositoryMock.Setup(r => r.GetGames(nonExistentLastName, null)).Returns(new List<Game>());
+            var controller = new GamesController(repositoryMock.Object);
+            IActionResult result = controller.GetGames(nonExistentLastName);
+
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
+        [Test]
+        public void FilterGamesByPlayerLastName_Returns_200_WhenNoMatchingGamesFound()
+        {
+            const string playerLastName = "foo";
+            var repositoryMock = new Mock<IGamesRepository>();
+            repositoryMock.Setup(r => r.GetGames(playerLastName, null)).Returns(new[] { CreateDummyGame(), CreateDummyGame() });
+            var controller = new GamesController(repositoryMock.Object);
+            IActionResult result = controller.GetGames(playerLastName);
+
+            Assert.IsInstanceOf<OkObjectResult>(result);
+        }
+
+        private Game CreateDummyGame()
+        {
+            return Builder<Game>.CreateNew()
+                .With(g => g.WhitePlayerId = 1)
+                .With(g => g.BlackPlayerId = 2)
+                .With(g => g.GameDate == DateTime.Now)
+                .With(g => g.OpeningClassification = "A12")
+                .With(g => g.GameResult = 1)
+                .Build();
         }
     }
 }
