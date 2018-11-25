@@ -150,7 +150,7 @@ namespace ChessInfo.Repository.Tests
                 IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: Doe, openingClassification: searchedOpeningClassification);
 
                 Assert.IsTrue(gamesLoaded.All(
-                    g => (IsWhiteOrBlackPlayerLastNameMatchingSearchedValue(g, Doe))
+                    g => (IsWhiteOrBlackPlayerLastNameMatchingSearchedValue(g))
                         && g.OpeningClassification.StartsWith(searchedOpeningClassification)));
             }
         }
@@ -196,7 +196,7 @@ namespace ChessInfo.Repository.Tests
             }            
         }
 
-        private bool IsWhiteOrBlackPlayerLastNameMatchingSearchedValue(Game game, string searchedLastName)
+        private bool IsWhiteOrBlackPlayerLastNameMatchingSearchedValue(Game game)
         {
             return game.WhitePlayer.LastName.StartsWith(Doe) || game.BlackPlayer.LastName.StartsWith(Doe);
         }
