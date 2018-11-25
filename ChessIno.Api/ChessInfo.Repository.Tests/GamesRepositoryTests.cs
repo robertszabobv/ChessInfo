@@ -34,15 +34,16 @@ namespace ChessInfo.Repository.Tests
         }
 
         [Test]
-        public void GetGames_WithNoFilter_ReturnsAllGames()
+        public void GetGames_WithNoFilter_ReturnsAllGamesWithPlayers()
         {
             var game = TestData.CreateGame(TestData.A01);
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(game);
-                IEnumerable<Game> gamesLoaded = repository.GetGames();
+                IEnumerable<Game> gamesLoaded = repository.GetGames().ToList();
 
                 Assert.IsNotEmpty(gamesLoaded);
+                Assert.IsTrue(gamesLoaded.All(g => g.WhitePlayer != null && g.BlackPlayer != null));
             }
         }
 
