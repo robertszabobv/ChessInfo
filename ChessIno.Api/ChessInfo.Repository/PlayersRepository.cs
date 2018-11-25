@@ -23,11 +23,21 @@ namespace ChessInfo.Repository
             return Context.Players.Where(Matching(lastName)).ToList();
         }
 
-        public void DeletePlayer(int playerId)
+        public bool DeletePlayer(int playerId)
         {
+            if (HasAnyGame(playerId))
+            {
+                return false;
+            }
             Player playerToDelete = Context.Players.Single(p => p.PlayerId == playerId);
             Context.Remove(playerToDelete);
             Context.SaveChanges();
+            return true;
+        }
+
+        private bool HasAnyGame(int playerId)
+        {
+            return Context.Games.Any(g => g.WhitePlayerId == playerId || g.BlackPlayerId == playerId);
         }
        
         public bool Update(Player player)

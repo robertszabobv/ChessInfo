@@ -152,7 +152,17 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void DeletePlayer_FailsWhenPlayerHasAnyGame()
         {
+            var game = TestData.CreateGame();
+            using (var gamesRepository = new GamesRepository())
+            {
+                gamesRepository.AddGame(game);
+            }
+            using (var repository = new PlayersRepository())
+            {
+                bool isPlayerDeleted = repository.DeletePlayer(game.WhitePlayerId);
 
+                Assert.IsFalse(isPlayerDeleted);
+            }
         }
 
         private void AddPlayer(Player player)

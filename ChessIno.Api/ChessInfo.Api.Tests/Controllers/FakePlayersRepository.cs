@@ -24,7 +24,7 @@ namespace ChessInfo.Api.Tests.Controllers
             throw new NotImplementedException();
         }
 
-        public void DeletePlayer(int playerId)
+        public bool DeletePlayer(int playerId)
         {
             throw new NotImplementedException();
         }

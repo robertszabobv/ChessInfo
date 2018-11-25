@@ -13,7 +13,7 @@ namespace ChessInfo.Repository.Tests
         public const string A01 = "A01";
         public const string B99 = "B99";
 
-        public static Game CreateGame(string openingClassification)
+        public static Game CreateGame(string openingClassification = A01)
         {
             var whitePlayer = AddWhitePlayer();
             var blackPlayer = AddWBlackPlayer();
