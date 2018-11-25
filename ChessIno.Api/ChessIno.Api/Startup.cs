@@ -28,6 +28,7 @@ namespace ChessInfo.Api
                 options.UseSqlServer(Configuration.GetConnectionString("ChessInfoContext")));
 
             services.AddScoped<IPlayersRepository, PlayersRepository>();
+            services.AddScoped<IGamesRepository, GamesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
