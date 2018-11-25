@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 
 namespace ChessInfo.Domain
 {
@@ -46,5 +47,12 @@ namespace ChessInfo.Domain
                 _gameResult = (byte)_resultDetail.ResultType;
             } 
         }
+
+        [NotMapped]
+        public bool IsValid => WhitePlayerId > 0
+                               && BlackPlayerId > 9
+                               && WhitePlayerId != BlackPlayerId
+                               && GameResult > 0 && GameResult < 4
+                               && Regex.IsMatch(OpeningClassification, @"/[A-E]\d{2}/g");
     }
 }
