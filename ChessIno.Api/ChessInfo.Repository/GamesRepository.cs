@@ -25,12 +25,18 @@ namespace ChessInfo.Repository
         }
         public IEnumerable<Game> GetGames(string playerLastName = null, string openingClassification = null)
         {
-            return Context.Games
+            var games = Context.Games
                 .Include(g => g.WhitePlayer)
                 .Include(g => g.BlackPlayer)
                 .Where(GetLastNameClause(playerLastName))
                 .Where(GetOpeningClassificationClause(openingClassification))
-                .ToList();            
+                .ToList();
+
+            foreach (Game game in games)
+            {
+                game.ResultDetail = new GameResultDetail((GameResultTypes)game.GameResult);
+            }
+            return games;
         }
 
         private Func<Game, bool> GetOpeningClassificationClause(string openingClassification)

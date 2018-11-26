@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,13 @@ namespace ChessInfo.Api.IntegrationTests
             var response = Client.GetAsync(getElementsUri).Result;
             response.EnsureSuccessStatusCode();
             return ReadContentAs<IEnumerable<T>>(response);
+        }
+
+        public static bool IsResult404OnSendHttpGetFor(string relativeUrl)
+        {
+            var getElementsUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
+            var response = Client.GetAsync(getElementsUri).Result;
+            return response.StatusCode == HttpStatusCode.NotFound;
         }
 
         public static void SendHttpDelete(Uri deleteUri)

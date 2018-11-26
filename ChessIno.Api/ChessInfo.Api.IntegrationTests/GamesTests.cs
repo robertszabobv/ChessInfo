@@ -34,6 +34,36 @@ namespace ChessInfo.Api.IntegrationTests
             Assert.IsNull(gameAfterDelete);
         }
 
+        [Test]
+        public void GetGames_ReturnsGames()
+        {
+            Game game = CreateDummyGame();
+            ChessInfoHttpClient.SendHttpPostToCreateNew(game, GamesRelativeUrl);
+            IEnumerable<GameDto> games = ChessInfoHttpClient.SendHttpGetFor<GameDto>(GamesRelativeUrl);
+
+            Assert.IsTrue(games.All(HaveAllPropertiesSet));
+        }
+
+        [Test]
+        public void FilterGames_Returns_404()
+        {
+            const string playerLastName = "gibberish";
+            const string openingClassification = "Q99";
+            string filterUrl = $"{GamesRelativeUrl}?playerLastName={playerLastName}&openingClassification={openingClassification}";
+            
+            Assert.IsTrue(ChessInfoHttpClient.IsResult404OnSendHttpGetFor(filterUrl));
+        }
+
+        private bool HaveAllPropertiesSet(GameDto dto)
+        {
+            return dto.GameId > 0
+                   && !string.IsNullOrWhiteSpace(dto.WhitePlayer)
+                   && !string.IsNullOrWhiteSpace(dto.BlackPlayer)
+                   && dto.GameDate != default(DateTime)
+                   && !string.IsNullOrWhiteSpace(dto.OpeningClassification) 
+                   && !string.IsNullOrWhiteSpace(dto.Result);
+        }
+
         private bool IsFilledWithExpectedValues(GameDto dto)
         {
             return dto.GameId > 0
@@ -41,9 +71,10 @@ namespace ChessInfo.Api.IntegrationTests
                    && !string.IsNullOrWhiteSpace(dto.BlackPlayer)
                    && dto.GameDate == DateTime.Today
                    && dto.OpeningClassification == OpeningClassificationInitial
-                   && dto.Result == "1-0";
+                   &&  dto.Result == "1-0";
         }
-       
+
+      
         private Game CreateDummyGame()
         {
             IEnumerable<Player> allPlayers = ChessInfoHttpClient.SendHttpGetFor<Player>("players").ToList();
