@@ -16,7 +16,12 @@ namespace ChessInfo.Repository
 
         public Game GetById(int gameId)
         {
-            return Context.Games.SingleOrDefault(g => g.GameId == gameId);
+            var game = Context.Games
+                .Include(g => g.WhitePlayer)
+                .Include(g => g.BlackPlayer).SingleOrDefault(g => g.GameId == gameId);
+            if (game != null) game.ResultDetail = new GameResultDetail((GameResultTypes) game.GameResult);
+
+            return game;
         }
         public IEnumerable<Game> GetGames(string playerLastName = null, string openingClassification = null)
         {

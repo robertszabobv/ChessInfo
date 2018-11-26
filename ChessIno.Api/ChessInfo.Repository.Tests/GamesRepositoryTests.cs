@@ -21,7 +21,7 @@ namespace ChessInfo.Repository.Tests
         }
 
         [Test]
-        public void GetById_ReturnsGameById()
+        public void GetById_ReturnsGameByIdWithPlayersAndResultDetail()
         {
             var game = TestData.CreateGame(TestData.B99);
             using (var repository = new GamesRepository())
@@ -30,6 +30,9 @@ namespace ChessInfo.Repository.Tests
                 var gameLoaded = repository.GetById(game.GameId);
 
                 Assert.IsNotNull(gameLoaded);
+                Assert.IsNotNull(gameLoaded.WhitePlayer);
+                Assert.IsNotNull(gameLoaded.BlackPlayer);
+                Assert.IsNotNull(gameLoaded.ResultDetail);
             }
         }
 

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using FizzWare.NBuilder;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace ChessInfo.Api.IntegrationTests
 {
@@ -11,20 +10,26 @@ namespace ChessInfo.Api.IntegrationTests
     public class GamesTests
     {
 
-        private const string PlayersRelativeUrl = "games";
-        const string UpdatedLastName = "updated by http put";
+        private const string GamesRelativeUrl = "games";
 
         [Test]
         public void CRUD_Succeeds()
         {
-
+            Game game = CreateDummyGame();
+            Uri newGameUri = ChessInfoHttpClient.SendHttpPostToCreateNew(game, GamesRelativeUrl);
+            Game gameReloaded = ChessInfoHttpClient.SendHttpGetFor<Game>(newGameUri);
+            Assert.IsTrue(gameReloaded.GameId > 0);
         }
 
         private Game CreateDummyGame()
-        {            
+        {
+            IEnumerable<Player> allPlayers = ChessInfoHttpClient.SendHttpGetFor<Player>("players").ToList();
+            var whitePlayer = allPlayers.First();
+            var blackPlayer = allPlayers.Last();
             return Builder<Game>.CreateNew()
-                .With(g => g.WhitePlayerId = 1)
-                .With(g => g.BlackPlayerId = 2)
+                .With(g => g.GameId = 0)
+                .With(g => g.WhitePlayerId = whitePlayer.PlayerId)
+                .With(g => g.BlackPlayerId = blackPlayer.PlayerId)
                 .With(g => g.GameDate == DateTime.Now)
                 .With(g => g.OpeningClassification = "A12")
                 .With(g => g.GameResult = 1)
