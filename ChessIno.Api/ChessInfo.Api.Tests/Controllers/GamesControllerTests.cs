@@ -196,7 +196,7 @@ namespace ChessInfo.Api.Tests.Controllers
         }
 
         [Test]
-        public void FilterGamesByPlayerLastName_Returns_200_WhenNoMatchingGamesFound()
+        public void FilterGamesByPlayerLastName_Returns_200_WhenMatchingGamesFound()
         {
             const string playerLastName = "foo";
             var repositoryMock = new Mock<IGamesRepository>();
@@ -207,6 +207,53 @@ namespace ChessInfo.Api.Tests.Controllers
             Assert.IsInstanceOf<OkObjectResult>(result);
         }
 
+        [Test]
+        public void FilterGamesByOpeningClassification_Returns_404_WhenNoMatchingIsFound()
+        {
+            const string classification = "foo";
+            var repositoryMock = new Mock<IGamesRepository>();
+            repositoryMock.Setup(r => r.GetGames(null, classification)).Returns(new List<Game>());
+            var controller = new GamesController(repositoryMock.Object);
+            IActionResult result = controller.GetGames(classification);
+
+            Assert.IsInstanceOf<NotFoundResult>(result);
+        }
+
+        [Test]
+        public void FilterGamesByClassification_Returns_200_WhenMatchingGamesFound()
+        {
+            const string classification = "A12";
+            var repositoryMock = new Mock<IGamesRepository>();
+            repositoryMock.Setup(r => r.GetGames(null, classification)).Returns(new[] { CreateDummyGame(), CreateDummyGame() });
+            var controller = new GamesController(repositoryMock.Object);
+            IActionResult result = controller.GetGames(null, classification);
+
+            Assert.IsInstanceOf<OkObjectResult>(result);
+        }
+
+        [Test]
+        public void UpdateGame_Returns_404_WhenGameNotFound()
+        {
+            Game gameToUpdate = CreateDummyGame();
+            var repositoryMock = new Mock<IGamesRepository>();
+            repositoryMock.Setup(r => r.Update(gameToUpdate)).Returns(false);
+            var controller = new GamesController(repositoryMock.Object);
+            IActionResult updateResult = controller.UpdateGame(gameToUpdate);
+
+            Assert.IsInstanceOf<NotFoundResult>(updateResult);
+        }
+
+        [Test]
+        public void UpdateGame_Returns_400_WhenGameIsNull()
+        {
+            Game gameToUpdate = CreateDummyGame();
+            var repositoryMock = new Mock<IGamesRepository>();
+            repositoryMock.Setup(r => r.Update(gameToUpdate)).Returns(false);
+            var controller = new GamesController(repositoryMock.Object);
+            IActionResult updateResult = controller.UpdateGame(null);
+
+            Assert.IsInstanceOf<BadRequestResult>(updateResult);
+        }
 
         private Game CreateDummyGame()
         {
