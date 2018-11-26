@@ -18,12 +18,12 @@ namespace ChessInfo.Api.IntegrationTests
         {
             HttpClient client = ChessInfoHttpClient.CreateHttpClient();
             Player player = CreateNewDummyPlayer();
-            Uri newPlayerUri = ChessInfoHttpClient.SendHttpPostToCreateNewDummyPlayer(client, player);
+            Uri newPlayerUri = ChessInfoHttpClient.SendHttpPostToCreateNewDummyPlayer(client, player, PlayersRelativeUrl);
             Player playerLoaded = ChessInfoHttpClient.SendHttpGetPlayer(client, newPlayerUri);
             Assert.IsTrue(playerLoaded.PlayerId > 0);
 
             playerLoaded.LastName = UpdatedLastName;
-            ChessInfoHttpClient.SendHttpPutToCUpdatePlayer(client, playerLoaded).Wait();
+            ChessInfoHttpClient.SendHttpPutToCUpdatePlayer(client, playerLoaded, PlayersRelativeUrl).Wait();
             Player playerUpdated = ChessInfoHttpClient.SendHttpGetPlayer(client, newPlayerUri);
             
             Assert.IsTrue(playerUpdated.LastName == UpdatedLastName);
@@ -38,7 +38,7 @@ namespace ChessInfo.Api.IntegrationTests
         {
             HttpClient client = ChessInfoHttpClient.CreateHttpClient();
             Player player = CreateNewDummyPlayer();
-            ChessInfoHttpClient.SendHttpPostToCreateNewDummyPlayer(client, player);
+            ChessInfoHttpClient.SendHttpPostToCreateNewDummyPlayer(client, player, PlayersRelativeUrl);
             IEnumerable<Player> players = ChessInfoHttpClient.SendHttpGetPlayers(client, PlayersRelativeUrl);
 
             Assert.IsNotNull(players);

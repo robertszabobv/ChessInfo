@@ -10,7 +10,7 @@ namespace ChessInfo.Api.IntegrationTests
 {
     internal static class ChessInfoHttpClient
     {
-        private const string PlayersRelativeUrl = "players";
+        //private const string PlayersRelativeUrl = "players";
         private static readonly string ServiceBaseUrl;
 
         static ChessInfoHttpClient()
@@ -21,9 +21,7 @@ namespace ChessInfo.Api.IntegrationTests
                 .Build();
             ServiceBaseUrl = configuration.GetSection("ChessInfoApi")["Url"];
         }
-
         
-
         public static IEnumerable<Player> SendHttpGetPlayers(HttpClient client, string relativeUrl)
         {
             var getPlayersUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
@@ -50,18 +48,17 @@ namespace ChessInfo.Api.IntegrationTests
             return JsonConvert.DeserializeObject<T>(responseBody);
         }
 
-        public static Uri SendHttpPostToCreateNewDummyPlayer(HttpClient client, Player player)
-        {
-            
-            var createPlayerUri = new Uri($"{ServiceBaseUrl}/{PlayersRelativeUrl}");
+        public static Uri SendHttpPostToCreateNewDummyPlayer(HttpClient client, Player player, string relativeUrl)
+        {            
+            var createPlayerUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
             StringContent playerHttpContent = CreateHttpContentFrom(player);
             var response = client.PostAsync(createPlayerUri, playerHttpContent).Result;
             return response.Headers.Location;
         }
 
-        public static async Task SendHttpPutToCUpdatePlayer(HttpClient client, Player player)
+        public static async Task SendHttpPutToCUpdatePlayer(HttpClient client, Player player, string relativeUrl)
         {
-            var playerUri = new Uri($"{ServiceBaseUrl}/{PlayersRelativeUrl}");
+            var playerUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
             StringContent playerHttpContent = CreateHttpContentFrom(player);
             await client.PutAsync(playerUri, playerHttpContent);
         }
