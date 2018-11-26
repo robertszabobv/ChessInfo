@@ -255,6 +255,35 @@ namespace ChessInfo.Api.Tests.Controllers
             Assert.IsInstanceOf<BadRequestResult>(updateResult);
         }
 
+        [Test]
+        public void UpdatingGame_WithEmptyOpeningClassification_Returns_400()
+        {
+            var controller = new GamesController(gamesRepository: null);
+            IActionResult result = controller.UpdateGame(CreateGameWithEmptyOpeningClassification());
+
+            Assert.IsInstanceOf<BadRequestResult>(result);
+        }
+
+        [Test]
+        public void UpdatingPlayer_Returns_NoContent()
+        {
+            var controller = new GamesController(new FakeGamesRepository());
+            IActionResult result = controller.UpdateGame(CreateDummyGame());
+
+            Assert.IsInstanceOf<NoContentResult>(result);
+        }
+
+        private Game CreateGameWithEmptyOpeningClassification()
+        {
+            return Builder<Game>.CreateNew()
+                .With(g => g.WhitePlayerId = 1)
+                .With(g => g.BlackPlayerId = 2)
+                .With(g => g.GameDate == DateTime.Now)
+                .With(g => g.OpeningClassification = string.Empty)
+                .With(g => g.GameResult = 1)
+                .Build();
+        }
+
         private Game CreateDummyGame()
         {
             return Builder<Game>.CreateNew()
