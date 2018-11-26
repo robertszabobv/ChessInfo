@@ -24,7 +24,6 @@ namespace ChessInfo.Api.Controllers
             {
                 return BadRequest();
             }
-
             using (_gamesRepository)
             {
                 _gamesRepository.AddGame(game);

@@ -73,8 +73,7 @@ namespace ChessInfo.Api.IntegrationTests
                    && dto.OpeningClassification == OpeningClassificationInitial
                    &&  dto.Result == "1-0";
         }
-
-      
+        
         private Game CreateDummyGame()
         {
             IEnumerable<Player> allPlayers = ChessInfoHttpClient.SendHttpGetFor<Player>("players").ToList();
