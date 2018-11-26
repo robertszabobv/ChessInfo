@@ -77,11 +77,12 @@ namespace ChessInfo.Api.Controllers
             using (_gamesRepository)
             {
                 IEnumerable<Game> games = _gamesRepository.GetGames(playerLastName, openingClassification);
-                if (games == null || !games.Any())
+                IEnumerable<Game> gamesList = games.ToList();
+                if (!gamesList.Any())
                 {
                     return NotFound();
                 }
-                return Ok(CreateDtoListFrom(games));
+                return Ok(CreateDtoListFrom(gamesList));
             }
         }
 
