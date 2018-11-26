@@ -21,23 +21,23 @@ namespace ChessInfo.Api.IntegrationTests
             ServiceBaseUrl = configuration.GetSection("ChessInfoApi")["Url"];
         }
         
-        public static IEnumerable<T> SendHttpGetPlayers<T>(HttpClient client, string relativeUrl)
+        public static IEnumerable<T> SendHttpGetFor<T>(HttpClient client, string relativeUrl)
         {
-            var getPlayersUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
-            var response = client.GetAsync(getPlayersUri).Result;
+            var getElementsUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
+            var response = client.GetAsync(getElementsUri).Result;
             response.EnsureSuccessStatusCode();
             return ReadContentAs<IEnumerable<T>>(response);
         }
 
-        public static void SendHttpDeletePlayer(HttpClient client, Uri newPlayerUri)
+        public static void SendHttpDelete(HttpClient client, Uri deleteUri)
         {
-            var response = client.DeleteAsync(newPlayerUri).Result;
+            var response = client.DeleteAsync(deleteUri).Result;
             response.EnsureSuccessStatusCode();
         }
 
-        public static T SendHttpGetPlayer<T>(HttpClient client, Uri newPlayerUri)
+        public static T SendHttpGetFor<T>(HttpClient client, Uri newElementUri)
         {
-            var response = client.GetAsync(newPlayerUri).Result;
+            var response = client.GetAsync(newElementUri).Result;
             return ReadContentAs<T>(response);
         }
 
@@ -47,26 +47,26 @@ namespace ChessInfo.Api.IntegrationTests
             return JsonConvert.DeserializeObject<T>(responseBody);
         }
 
-        public static Uri SendHttpPostToCreateNewDummyPlayer<T>(HttpClient client, T player, string relativeUrl)
+        public static Uri SendHttpPostToCreateNew<T>(HttpClient client, T element, string relativeUrl)
         {            
-            var createPlayerUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
-            StringContent playerHttpContent = CreateHttpContentFrom(player);
-            var response = client.PostAsync(createPlayerUri, playerHttpContent).Result;
+            var createUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
+            StringContent httpContent = CreateHttpContentFrom(element);
+            var response = client.PostAsync(createUri, httpContent).Result;
             return response.Headers.Location;
         }
 
-        public static async Task SendHttpPutToCUpdatePlayer<T>(HttpClient client, T player, string relativeUrl)
+        public static async Task SendHttpPutToUpdate<T>(HttpClient client, T element, string relativeUrl)
         {
-            var playerUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
-            StringContent playerHttpContent = CreateHttpContentFrom(player);
-            await client.PutAsync(playerUri, playerHttpContent);
+            var putUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
+            StringContent httpContent = CreateHttpContentFrom(element);
+            await client.PutAsync(putUri, httpContent);
         }
 
-        private static StringContent CreateHttpContentFrom<T>(T player)
+        private static StringContent CreateHttpContentFrom<T>(T element)
         {
-            string playerJson = JsonConvert.SerializeObject(player);
-            var playerHttpContent = new StringContent(playerJson, Encoding.UTF8, "application/json");
-            return playerHttpContent;
+            string elementJson = JsonConvert.SerializeObject(element);
+            var httpContent = new StringContent(elementJson, Encoding.UTF8, "application/json");
+            return httpContent;
         }
 
         public static HttpClient CreateHttpClient()

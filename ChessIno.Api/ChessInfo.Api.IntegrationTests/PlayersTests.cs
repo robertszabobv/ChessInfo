@@ -18,18 +18,18 @@ namespace ChessInfo.Api.IntegrationTests
         {
             HttpClient client = ChessInfoHttpClient.CreateHttpClient();
             Player player = CreateNewDummyPlayer();
-            Uri newPlayerUri = ChessInfoHttpClient.SendHttpPostToCreateNewDummyPlayer(client, player, PlayersRelativeUrl);
-            Player playerLoaded = ChessInfoHttpClient.SendHttpGetPlayer<Player>(client, newPlayerUri);
+            Uri newPlayerUri = ChessInfoHttpClient.SendHttpPostToCreateNew(client, player, PlayersRelativeUrl);
+            Player playerLoaded = ChessInfoHttpClient.SendHttpGetFor<Player>(client, newPlayerUri);
             Assert.IsTrue(playerLoaded.PlayerId > 0);
 
             playerLoaded.LastName = UpdatedLastName;
-            ChessInfoHttpClient.SendHttpPutToCUpdatePlayer(client, playerLoaded, PlayersRelativeUrl).Wait();
-            Player playerUpdated = ChessInfoHttpClient.SendHttpGetPlayer<Player>(client, newPlayerUri);
+            ChessInfoHttpClient.SendHttpPutToUpdate(client, playerLoaded, PlayersRelativeUrl).Wait();
+            Player playerUpdated = ChessInfoHttpClient.SendHttpGetFor<Player>(client, newPlayerUri);
             
             Assert.IsTrue(playerUpdated.LastName == UpdatedLastName);
 
-            ChessInfoHttpClient.SendHttpDeletePlayer(client, newPlayerUri);
-            Player playerAfterDelete = ChessInfoHttpClient.SendHttpGetPlayer<Player>(client, newPlayerUri);
+            ChessInfoHttpClient.SendHttpDelete(client, newPlayerUri);
+            Player playerAfterDelete = ChessInfoHttpClient.SendHttpGetFor<Player>(client, newPlayerUri);
             Assert.IsNull(playerAfterDelete);
         }
 
@@ -38,8 +38,8 @@ namespace ChessInfo.Api.IntegrationTests
         {
             HttpClient client = ChessInfoHttpClient.CreateHttpClient();
             Player player = CreateNewDummyPlayer();
-            ChessInfoHttpClient.SendHttpPostToCreateNewDummyPlayer(client, player, PlayersRelativeUrl);
-            IEnumerable<Player> players = ChessInfoHttpClient.SendHttpGetPlayers<Player>(client, PlayersRelativeUrl);
+            ChessInfoHttpClient.SendHttpPostToCreateNew(client, player, PlayersRelativeUrl);
+            IEnumerable<Player> players = ChessInfoHttpClient.SendHttpGetFor<Player>(client, PlayersRelativeUrl);
 
             Assert.IsNotNull(players);
             Assert.IsNotEmpty(players);
