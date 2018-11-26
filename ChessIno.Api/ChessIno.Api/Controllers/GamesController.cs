@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ChessInfo.Api.Dto;
 using ChessInfo.Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,8 +42,33 @@ namespace ChessInfo.Api.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(game);
+                return Ok(CreateDtoFrom(game));
             }
+        }
+
+        private GameDto CreateDtoFrom(Game game)
+        {
+            return new GameDto
+            {
+                WhitePlayer = $"{game.WhitePlayer.FirstName} {game.WhitePlayer.LastName}",
+                BlackPlayer = $"{game.BlackPlayer.FirstName} {game.BlackPlayer.LastName}",
+                GameId = game.GameId,
+                OpeningClassification = game.OpeningClassification,
+                GameDate = game.GameDate,
+                Result = game.ResultDetail.ToString()
+            };
+        }
+
+        private IEnumerable<GameDto> CreateDtoListFrom(IEnumerable<Game> games)
+        {
+            var gamesList = games.ToList();
+            var dtos = new List<GameDto>(gamesList.Count);
+            foreach (Game game in gamesList)
+            {
+                dtos.Add(CreateDtoFrom(game));
+            }
+
+            return dtos;
         }
 
         [HttpGet]
@@ -55,7 +81,7 @@ namespace ChessInfo.Api.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(games);
+                return Ok(CreateDtoListFrom(games));
             }
         }
 

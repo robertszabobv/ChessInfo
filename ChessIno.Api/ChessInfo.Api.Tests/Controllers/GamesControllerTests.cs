@@ -300,9 +300,15 @@ namespace ChessInfo.Api.Tests.Controllers
 
         private Game CreateDummyGame()
         {
+            var whitePlayer = Builder<Player>.CreateNew().With(p => p.PlayerId = 1).Build();
+            var blackPlayer = Builder<Player>.CreateNew().With(p => p.PlayerId = 2).Build();
+
             return Builder<Game>.CreateNew()
                 .With(g => g.WhitePlayerId = 1)
-                .With(g => g.BlackPlayerId = 2)
+                .With(g => g.WhitePlayer = whitePlayer)
+                .With(g => g.BlackPlayer = blackPlayer)
+                .With(g => g.WhitePlayerId = whitePlayer.PlayerId)
+                .With(g => g.BlackPlayerId = blackPlayer.PlayerId)
                 .With(g => g.GameDate == DateTime.Now)
                 .With(g => g.OpeningClassification = "A12")
                 .With(g => g.GameResult = 1)
