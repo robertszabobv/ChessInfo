@@ -7,6 +7,7 @@ using NUnit.Framework;
 namespace ChessInfo.Api.IntegrationTests
 {
     [TestFixture]
+    [Category("Integration tests")]
     public class GamesTests
     {
         private const string OpeningClassificationInitial = "A12";
