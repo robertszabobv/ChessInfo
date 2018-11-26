@@ -273,6 +273,14 @@ namespace ChessInfo.Api.Tests.Controllers
             Assert.IsInstanceOf<NoContentResult>(result);
         }
 
+        //[Test]
+        //public void DeletGame_Returns_400_WhenGameCannotBeDeleted()
+        //{
+        //    const int gameId = 44;
+        //    var repositoryMock = new Mock<IGamesRepository>();
+        //    repositoryMock.Setup(r => r.DeleteGame(gameId)).
+        //}
+
         private Game CreateGameWithEmptyOpeningClassification()
         {
             return Builder<Game>.CreateNew()

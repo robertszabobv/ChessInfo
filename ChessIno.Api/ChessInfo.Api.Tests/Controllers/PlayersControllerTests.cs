@@ -219,6 +219,18 @@ namespace ChessInfo.Api.Tests.Controllers
         }
 
         [Test]
+        public void DeletePlayer_Returns_400_WhenPlayerCannotBeDeleted()
+        {
+            const int playerId = 99;
+            var repositoryMock = new Mock<IPlayersRepository>();
+            repositoryMock.Setup(r => r.DeletePlayer(playerId)).Returns(false);
+            var controller = new PlayersController(repositoryMock.Object);
+            IActionResult result = controller.Delete(playerId);
+
+            Assert.IsInstanceOf<BadRequestResult>(result);
+        }
+
+        [Test]
         public void UpdatePlayer_Returns_404_WhenPlayerNotFound()
         {
             Player playerToUpdate = CreateNewDummyPlayer();

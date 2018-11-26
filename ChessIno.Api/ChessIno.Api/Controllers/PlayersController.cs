@@ -64,7 +64,10 @@ namespace ChessInfo.Api.Controllers
         {
             using (_playersRepository)
             {
-                _playersRepository.DeletePlayer(playerId);
+                if (!_playersRepository.DeletePlayer(playerId))
+                {
+                    return BadRequest();
+                }
                 return NoContent();
             }                
         }
