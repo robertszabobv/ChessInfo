@@ -11,6 +11,7 @@ namespace ChessInfo.Api.IntegrationTests
     internal static class ChessInfoHttpClient
     {
         private static readonly string ServiceBaseUrl;
+        private static readonly HttpClient Client;
 
         static ChessInfoHttpClient()
         {
@@ -19,25 +20,26 @@ namespace ChessInfo.Api.IntegrationTests
                 .AddJsonFile("appsettings.json")
                 .Build();
             ServiceBaseUrl = configuration.GetSection("ChessInfoApi")["Url"];
+            Client = CreateHttpClient();
         }
         
-        public static IEnumerable<T> SendHttpGetFor<T>(HttpClient client, string relativeUrl)
+        public static IEnumerable<T> SendHttpGetFor<T>(string relativeUrl)
         {
             var getElementsUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
-            var response = client.GetAsync(getElementsUri).Result;
+            var response = Client.GetAsync(getElementsUri).Result;
             response.EnsureSuccessStatusCode();
             return ReadContentAs<IEnumerable<T>>(response);
         }
 
-        public static void SendHttpDelete(HttpClient client, Uri deleteUri)
+        public static void SendHttpDelete(Uri deleteUri)
         {
-            var response = client.DeleteAsync(deleteUri).Result;
+            var response = Client.DeleteAsync(deleteUri).Result;
             response.EnsureSuccessStatusCode();
         }
 
-        public static T SendHttpGetFor<T>(HttpClient client, Uri newElementUri)
+        public static T SendHttpGetFor<T>(Uri newElementUri)
         {
-            var response = client.GetAsync(newElementUri).Result;
+            var response = Client.GetAsync(newElementUri).Result;
             return ReadContentAs<T>(response);
         }
 
@@ -47,19 +49,19 @@ namespace ChessInfo.Api.IntegrationTests
             return JsonConvert.DeserializeObject<T>(responseBody);
         }
 
-        public static Uri SendHttpPostToCreateNew<T>(HttpClient client, T element, string relativeUrl)
+        public static Uri SendHttpPostToCreateNew<T>(T element, string relativeUrl)
         {            
             var createUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
             StringContent httpContent = CreateHttpContentFrom(element);
-            var response = client.PostAsync(createUri, httpContent).Result;
+            var response = Client.PostAsync(createUri, httpContent).Result;
             return response.Headers.Location;
         }
 
-        public static async Task SendHttpPutToUpdate<T>(HttpClient client, T element, string relativeUrl)
+        public static async Task SendHttpPutToUpdate<T>(T element, string relativeUrl)
         {
             var putUri = new Uri($"{ServiceBaseUrl}/{relativeUrl}");
             StringContent httpContent = CreateHttpContentFrom(element);
-            await client.PutAsync(putUri, httpContent);
+            await Client.PutAsync(putUri, httpContent);
         }
 
         private static StringContent CreateHttpContentFrom<T>(T element)
@@ -69,7 +71,7 @@ namespace ChessInfo.Api.IntegrationTests
             return httpContent;
         }
 
-        public static HttpClient CreateHttpClient()
+        private static HttpClient CreateHttpClient()
         {
             var client = new HttpClient
             {
