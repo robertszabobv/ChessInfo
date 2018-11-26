@@ -273,13 +273,19 @@ namespace ChessInfo.Api.Tests.Controllers
             Assert.IsInstanceOf<NoContentResult>(result);
         }
 
-        //[Test]
-        //public void DeletGame_Returns_400_WhenGameCannotBeDeleted()
-        //{
-        //    const int gameId = 44;
-        //    var repositoryMock = new Mock<IGamesRepository>();
-        //    repositoryMock.Setup(r => r.DeleteGame(gameId)).
-        //}
+        [Test]
+        public void DeleteGame_Returns_NoContent_WhenGameDeleted()
+        {
+            const int gameId = 44;
+            bool isGameDeleted = false;
+            var repositoryMock = new Mock<IGamesRepository>();
+            repositoryMock.Setup(r => r.DeleteGame(gameId)).Callback(() => isGameDeleted = true);
+            var controller = new GamesController(repositoryMock.Object);
+            IActionResult result = controller.Delete(gameId);
+
+            Assert.IsTrue(isGameDeleted);
+            Assert.IsInstanceOf<NoContentResult>(result);
+        }
 
         private Game CreateGameWithEmptyOpeningClassification()
         {

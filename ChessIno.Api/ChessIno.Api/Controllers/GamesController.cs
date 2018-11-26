@@ -77,5 +77,15 @@ namespace ChessInfo.Api.Controllers
             return NotFound();
         }
 
+        [HttpDelete("{gameId}")]
+        public IActionResult Delete(int gameId)
+        {
+            using (_gamesRepository)
+            {
+                _gamesRepository.DeleteGame(gameId);
+                return NoContent();
+            }
+        }
+
     }
 }

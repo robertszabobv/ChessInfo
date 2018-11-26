@@ -210,7 +210,7 @@ namespace ChessInfo.Api.Tests.Controllers
             const int playerId = 99;
             bool isPlayerDeleted = false;
             var repositoryMock = new Mock<IPlayersRepository>();
-            repositoryMock.Setup(r => r.DeletePlayer(playerId)).Callback(() => isPlayerDeleted = true);
+            repositoryMock.Setup(r => r.DeletePlayer(playerId)).Returns(true).Callback(() => isPlayerDeleted = true);
             var controller = new PlayersController(repositoryMock.Object);
             IActionResult result = controller.Delete(playerId);
 
