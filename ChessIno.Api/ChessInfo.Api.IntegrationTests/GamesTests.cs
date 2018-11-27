@@ -61,7 +61,7 @@ namespace ChessInfo.Api.IntegrationTests
                    && !string.IsNullOrWhiteSpace(dto.BlackPlayer)
                    && dto.GameDate != default(DateTime)
                    && !string.IsNullOrWhiteSpace(dto.OpeningClassification) 
-                   && !string.IsNullOrWhiteSpace(dto.Result);
+                   && !string.IsNullOrWhiteSpace(dto.ResultDetail);
         }
 
         private bool IsFilledWithExpectedValues(GameDto dto)
@@ -71,7 +71,7 @@ namespace ChessInfo.Api.IntegrationTests
                    && !string.IsNullOrWhiteSpace(dto.BlackPlayer)
                    && dto.GameDate == DateTime.Today
                    && dto.OpeningClassification == OpeningClassificationInitial
-                   &&  dto.Result == "1-0";
+                   &&  dto.ResultDetail == "1-0";
         }
         
         private Game CreateDummyGame()

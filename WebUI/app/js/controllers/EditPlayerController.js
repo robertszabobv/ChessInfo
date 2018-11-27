@@ -27,8 +27,9 @@ chessApp.controller('EditPlayerController',
             }
             playersService.getPlayer($routeParams.playerId,
                 function onPlayerLoaded(player) {
-                    $scope.player = player
-                });
+                    $scope.player = player;
+                }
+            );
         }
     }
 );

@@ -54,7 +54,8 @@ namespace ChessInfo.Api.Controllers
                 GameId = game.GameId,
                 OpeningClassification = game.OpeningClassification,
                 GameDate = game.GameDate,
-                Result = game.ResultDetail.ToString()
+                Result = game.GameResult,
+                ResultDetail = game.ResultDetail.ToString()
             };
         }
 
