@@ -4,7 +4,7 @@ chessApp.controller('EditGameController',
     function EditGameController($scope, playersService, $routeParams, $location, $log, gamesService) {
         
         $scope.game = getGame();
-        $scope.game.result = "1";
+        
         $scope.canCreateGame = false
 
         playersService.getPlayers(function OnPlayersLoaded(players) {
@@ -54,8 +54,11 @@ chessApp.controller('EditGameController',
                 return {};
             }
             gamesService.getGame($routeParams.gameId,
-                function onGameLoaded(player) {
+                function onGameLoaded(game) {
+                    var gameDateString = game.gameDate;
+                    game.gameDate = new Date(gameDateString)
                     $scope.game = game;
+                    $scope.game.result = "1";
                 });
         }
     }
