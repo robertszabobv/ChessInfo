@@ -3,9 +3,7 @@
 chessApp.controller('EditGameController',
     function EditGameController($scope, playersService, $routeParams, $location, $log, gamesService) {
         
-        $scope.game = {};
-        $scope.game.result = "1";
-        $scope.canCreateGame = false
+        getGame();
 
         playersService.getPlayers(function OnPlayersLoaded(players) {
             $scope.players = players;
@@ -47,6 +45,18 @@ chessApp.controller('EditGameController',
 
         $scope.cancel = function() {
             $location.url("/games");
+        }
+
+        function getGame() {
+            if($routeParams.gameId === undefined) {
+                return getDefaultGame();
+            }
+        }
+
+        function getDefaultGame() {
+            $scope.game = {};
+            $scope.game.result = "1";
+            $scope.canCreateGame = false
         }
     }
 );
