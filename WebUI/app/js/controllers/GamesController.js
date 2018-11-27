@@ -5,9 +5,9 @@ chessApp.controller('GamesController',
         $scope.playerFilter = "";
         $scope.openingFilter = "";
 
-        loadGames();
+        
 
-        function loadGames() {
+        $scope.loadGames = function() {
             gamesService.getGames(function onGamesLoaded(gamesFiltered) {
                 $scope.games = gamesFiltered;
             },
@@ -18,4 +18,5 @@ chessApp.controller('GamesController',
             $scope.openingFilter)
         }
 
+        $scope.loadGames();        
 });

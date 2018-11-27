@@ -10,12 +10,12 @@
             <input type="search" class="search" id="playerLastNameFilter" placeholder="find by player last name..."
             ng-model="playerFilter" 
             ng-model-options='{ debounce: 1000 }' 
-            ng-change="filterByPlayer()" />
+            ng-change="loadGames()" />
 
             <input type="search" class="search" id="openingClassificationFilter" placeholder="find by opening classification..."
             ng-model="openingFilter" 
             ng-model-options='{ debounce: 1000 }' 
-            ng-change="filterByOpening()" />
+            ng-change="loadGames()" />
         </fieldset>
     </div>
 
