@@ -34,11 +34,11 @@
         </tr>
         <tr ng-repeat="game in games">
             
-            <td><a href="#/editPlayer/{{game.gameId}}" class="edit" >{{game.whitePlayer}}</a></td>
-            <td><a href="#/editPlayer/{{game.gameId}}" class="edit">{{game.blackPlayer}}</a></td>
-            <td><a href="#/editPlayer/{{game.gameId}}" class="edit">{{game.gameDate}}</a></td>
-            <td><a href="#/editPlayer/{{game.gameId}}" class="edit">{{game.openingClassification}}</a></td>
-            <td><a href="#/editPlayer/{{game.gameId}}" class="edit">{{game.result}}</a></td>           
+            <td><a href="#/editGame/{{game.gameId}}" class="edit" >{{game.whitePlayer}}</a></td>
+            <td><a href="#/editGame/{{game.gameId}}" class="edit">{{game.blackPlayer}}</a></td>
+            <td><a href="#/editGame/{{game.gameId}}" class="edit">{{game.gameDate}}</a></td>
+            <td><a href="#/editGame/{{game.gameId}}" class="edit">{{game.openingClassification}}</a></td>
+            <td><a href="#/editGame/{{game.gameId}}" class="edit">{{game.result}}</a></td>           
             <td><button type="button"><img id="deleteGame" ng-src="/img/delete.png" 
                 style="width: 32px; height: 32px;" title="delete" 
                 ng-click="deleteGame(game)"></button>

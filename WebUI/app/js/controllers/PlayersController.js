@@ -39,9 +39,5 @@ chessApp.controller('PlayersController',
                 },
                 player.playerId
             );
-        }
-
-        $scope.editPlayer = function(player) {
-            alert('Edit: ' + player.firstName + " " + player.lastName);
-        }
+        }       
 });
