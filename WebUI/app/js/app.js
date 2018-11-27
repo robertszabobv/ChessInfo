@@ -27,5 +27,10 @@ var chessApp = angular.module('chessApp', ['ngRoute'])
         templateUrl: "templates/Games.html",
         controller: "GamesController"
     });
+    $routeProvider.when('/editGame/:gameId',
+    {
+        templateUrl: "templates/EditGame.html",
+        controller: "EditGameController"
+    });
     $routeProvider.otherwise({redirectTo: '/players'});
 });
