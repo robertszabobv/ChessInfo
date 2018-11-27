@@ -37,7 +37,7 @@ chessApp.controller('EditGameController',
                         + ' vs. ' 
                         + game.blackPlayer.firstName + ' ' + game.blackPlayer.lastName 
                         + ' saved!');
-                    $location.url("/players");
+                    $location.url("/games");
                 })
                 .error(function(data, status, headers, config) {
                     $log.warn(data, status, headers, config);
@@ -46,7 +46,7 @@ chessApp.controller('EditGameController',
         }
 
         $scope.cancel = function() {
-            $location.url("/players");
+            $location.url("/games");
         }
     }
 );

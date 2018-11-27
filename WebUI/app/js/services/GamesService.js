@@ -17,7 +17,18 @@ chessApp.factory('gamesService', function($http, $log) {
                     $log.warn(data, status, headers, config);
                 };                       
             });
-        }        
+        },
+
+        deleteGame: function(successCallback, failedCallback, gameId) {
+            return $http.delete('/api/games/' + gameId)
+            .success(function(data, status, headers, config) {
+                successCallback(data);
+            })
+            .error(function(data, status, headers, config) {                
+                $log.warn(data, status, headers, config);
+                failedCallback();                
+            });
+        }
     };
 
     function createDtoFrom(game) {
