@@ -1,7 +1,7 @@
 'use strict';
 
 chessApp.controller('PlayersController', 
-    function PlayersController($scope, playersService) {
+    function PlayersController($scope, $log, playersService) {
         $scope.players = [];
         $scope.filter = "";
     
@@ -29,8 +29,13 @@ chessApp.controller('PlayersController',
                     $scope.players.splice(index, 1);
                     alert(player.firstName + " " + player.lastName + " deleted.");
                 },
-                function onDeleteFailed() {
-                    
+                function onPlayerHasGames() {
+                    alert("Cannot delete player " 
+                        + player.firstName + " " + player.lastName
+                        + "because he/she is a player in one or more games. Please delete those games first.")
+                },
+                function onDeleteFailed(data, status, headers, config) {
+                    $log.warn(data, status, headers, config);
                 },
                 player.playerId
             );

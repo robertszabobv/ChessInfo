@@ -30,7 +30,18 @@ chessApp.controller('EditGameController',
         
         $scope.saveGame = function(game, gameForm) {
             if(gameForm.$valid && areWhiteAndBlackDifferentPlayers()) {
-                gamesService.saveGame(game);
+                gamesService.saveGame(game)
+                .success(function(data, status) {
+                    window.alert('game ' 
+                        + game.whitePlayer.firstName + ' ' + game.whitePlayer.lastName 
+                        + ' vs. ' 
+                        + game.blackPlayer.firstName + ' ' + game.blackPlayer.lastName 
+                        + ' saved!');
+                    $location.url("/players");
+                })
+                .error(function(data, status, headers, config) {
+                    $log.warn(data, status, headers, config);
+                });;
             }
         }
 
