@@ -1,0 +1,49 @@
+<div style="padding-left:20px; padding-right:20px;">
+    <h1>Games</h1>
+    <hr/>
+
+    <div class="row-fluid">
+        <fieldset>
+            <a href="#/editGame">
+                <img id="addGame" ng-src="/img/add.png" style="width: 32px; height: 32px;" />
+            </a>
+            <input type="search" class="search" id="playerLastNameFilter" placeholder="find by player last name..."
+            ng-model="playerFilter" 
+            ng-model-options='{ debounce: 1000 }' 
+            ng-change="filterByPlayer()" />
+
+            <input type="search" class="search" id="openingClassificationFilter" placeholder="find by opening classification..."
+            ng-model="openingFilter" 
+            ng-model-options='{ debounce: 1000 }' 
+            ng-change="filterByOpening()" />
+        </fieldset>
+    </div>
+
+    <div id="noGames" class="noResults" ng-hide="games.length > 0">
+        <span>No games found</span>
+    </div>
+
+    <table class="gamesTable" ng-show="games.length > 0">
+        <tr>
+            <th>White</th>
+            <th>Black</th>
+            <th>Date</th>
+            <th>Opening</th>
+            <th>Result</th>
+            <th style="width: 10%"></th>
+        </tr>
+        <tr ng-repeat="game in games">
+            
+            <td><a href="#/editPlayer/{{game.gameId}}" class="edit" >{{game.whitePlayer}}</a></td>
+            <td><a href="#/editPlayer/{{game.gameId}}" class="edit">{{game.blackPlayer}}</a></td>
+            <td><a href="#/editPlayer/{{game.gameId}}" class="edit">{{game.gameDate}}</a></td>
+            <td><a href="#/editPlayer/{{game.gameId}}" class="edit">{{game.openingClassification}}</a></td>
+            <td><a href="#/editPlayer/{{game.gameId}}" class="edit">{{game.result}}</a></td>           
+            <td><button type="button"><img id="deleteGame" ng-src="/img/delete.png" 
+                style="width: 32px; height: 32px;" title="delete" 
+                ng-click="deleteGame(game)"></button>
+            </td>
+        </tr>
+    </table>     
+
+</div>

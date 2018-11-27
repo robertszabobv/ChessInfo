@@ -1,6 +1,6 @@
 /* app css stylesheet */
 
-.playersTable {
+.playersTable, .gamesTable {
     width: 100%;    
 }
 
