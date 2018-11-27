@@ -41,7 +41,9 @@ namespace ChessInfo.Api.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(CreateDtoFrom(game));
+
+                return Ok(game);
+                //return Ok(CreateDtoFrom(game));
             }
         }
 

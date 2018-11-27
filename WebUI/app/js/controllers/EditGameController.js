@@ -3,7 +3,7 @@
 chessApp.controller('EditGameController',
     function EditGameController($scope, playersService, $routeParams, $location, $log, gamesService) {
         
-        getGame();
+        getDefaultGame();
 
         playersService.getPlayers(function OnPlayersLoaded(players) {
             $scope.players = players;
