@@ -51,8 +51,6 @@ namespace ChessInfo.Api.Controllers
             {
                 WhitePlayer = $"{game.WhitePlayer.FirstName} {game.WhitePlayer.LastName}",
                 BlackPlayer = $"{game.BlackPlayer.FirstName} {game.BlackPlayer.LastName}",
-                WhitePlayerId = game.WhitePlayer.PlayerId,
-                BlackPlayerId = game.BlackPlayer.PlayerId,
                 GameId = game.GameId,
                 OpeningClassification = game.OpeningClassification,
                 GameDate = game.GameDate,

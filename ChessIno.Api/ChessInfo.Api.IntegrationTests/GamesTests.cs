@@ -71,9 +71,7 @@ namespace ChessInfo.Api.IntegrationTests
                    && !string.IsNullOrWhiteSpace(dto.BlackPlayer)
                    && dto.GameDate == DateTime.Today
                    && dto.OpeningClassification == OpeningClassificationInitial
-                   &&  dto.ResultDetail == "1-0"
-                   && dto.WhitePlayerId > 0
-                   && dto.BlackPlayerId > 0;
+                   &&  dto.ResultDetail == "1-0";
         }
         
         private Game CreateDummyGame()
