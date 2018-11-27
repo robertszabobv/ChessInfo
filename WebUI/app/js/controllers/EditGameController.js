@@ -21,7 +21,7 @@ chessApp.controller('EditGameController',
             if($scope.players === undefined || $scope.players === null) {
                 return false;
             }
-            return $scope.players.length > 2;
+            return $scope.players.length > 1;
         }
 
         function areWhiteAndBlackDifferentPlayers() {

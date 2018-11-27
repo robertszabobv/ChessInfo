@@ -30,9 +30,9 @@ chessApp.controller('PlayersController',
                     alert(player.firstName + " " + player.lastName + " deleted.");
                 },
                 function onPlayerHasGames() {
-                    alert("Cannot delete player " 
+                    alert("Cannot delete " 
                         + player.firstName + " " + player.lastName
-                        + "because he/she is a player in one or more games. Please delete those games first.")
+                        + ", because he/she is a player in one or more games. Please delete those games first.")
                 },
                 function onDeleteFailed(data, status, headers, config) {
                     $log.warn(data, status, headers, config);
