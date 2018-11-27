@@ -3,17 +3,20 @@
         <h1>Game</h1>
         <hr/>
         
+        {{game}}
         <form name="gameForm" ng-show="canCreateGame()">
             <fieldset>
                 <label for="whitePlayer">White Player:</label>
+                
+                <br/>
                 <select id="whitePlayer" 
                     ng-model="game.whitePlayer"
-                    ng-options="item.firstName + ' ' + item.lastName for item in players">
+                    ng-options="item.firstName + ' ' + item.lastName for item in players track by item.playerId">
                 </select>              
                 <label for="blackPlayer">Black Player:</label>
                 <select id="blackPlayer" 
                     ng-model="game.blackPlayer"
-                    ng-options="item.firstName + ' ' + item.lastName for item in players">
+                    ng-options="item.firstName + ' ' + item.lastName for item in players track by item.playerId">
                 </select>
 
                 <label for="gameDate">Date:</label>
@@ -22,7 +25,7 @@
                 <input id="openingClassification" type="text" required ng-pattern="/[A-E]\d{2}/g" 
                     ng-model="game.openingClassification" placeholder="A-E followed by two digits..."   />   
                 <label for="result">Result:</label>
-                <select id="result" ng-model="game.result">
+                <select id="result" ng-model="game.gameResult">
                     <option value="1">1-0</option>
                     <option value="2">0.5-0.5</option>
                     <option value="3">0-1</option>                

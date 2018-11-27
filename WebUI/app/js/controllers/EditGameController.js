@@ -3,12 +3,25 @@
 chessApp.controller('EditGameController',
     function EditGameController($scope, playersService, $routeParams, $location, $log, gamesService) {
         
+
+        
         getDefaultGame();
 
         playersService.getPlayers(function OnPlayersLoaded(players) {
             $scope.players = players;
             $scope.game.whitePlayer = players[0];
-            $scope.game.blackPlayer = players[1];            
+            $scope.game.blackPlayer = players[1];
+
+            if($routeParams.gameId === undefined) {
+                return;
+            }
+            gamesService.getGame($routeParams.gameId,
+                function onGameLoaded(game) {
+                    $scope.game = game;
+                    // $scope.game.whitePlayer = game.whitePlayer;
+                    // $scope.game.blackPlayer = game.blackPlayer;
+                }
+            );
         }) ;
         
         $scope.canCreateGame = function() {
@@ -55,7 +68,7 @@ chessApp.controller('EditGameController',
 
         function getDefaultGame() {
             $scope.game = {};
-            $scope.game.result = "1";
+            $scope.game.gameResult = "1";
             $scope.canCreateGame = false
         }
     }
