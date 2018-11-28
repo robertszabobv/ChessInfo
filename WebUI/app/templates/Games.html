@@ -36,7 +36,7 @@
             
             <td><a href="#/editGame/{{game.gameId}}" class="edit" >{{game.whitePlayer}}</a></td>
             <td><a href="#/editGame/{{game.gameId}}" class="edit">{{game.blackPlayer}}</a></td>
-            <td><a href="#/editGame/{{game.gameId}}" class="edit">{{game.gameDate | date: 'dd/MM/yyyy'}}</a></td>
+            <td><a href="#/editGame/{{game.gameId}}" class="edit">{{game.gameDate | date: 'MM/dd/yyyy'}}</a></td>
             <td><a href="#/editGame/{{game.gameId}}" class="edit">{{game.openingClassification}}</a></td>
             <td><a href="#/editGame/{{game.gameId}}" class="edit">{{game.result}}</a></td>           
             <td><button type="button"><img id="deleteGame" ng-src="/img/delete.png" 
