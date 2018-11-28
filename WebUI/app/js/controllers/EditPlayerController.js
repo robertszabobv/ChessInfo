@@ -7,19 +7,17 @@ chessApp.controller('EditPlayerController',
         $scope.savePlayer = function(player, playerForm) {
             if(playerForm.$valid) {
                 playersService.savePlayer(player)
-                .success(function(data, status) {
+                .then(result => {
                     window.alert('player ' + player.firstName + ' ' + player.lastName + ' saved!');
                     $location.url("/players");
                 })
-                .error(function(data, status, headers, config) {
-                    $log.warn(data, status, headers, config);
-                });
+                .catch(error => $log.warn(error));
             } 
-        }
+        };        
 
         $scope.cancel = function() {
             $location.url("/players");
-        }      
+        };  
         
         function getPlayer() {
             if($routeParams.playerId === undefined) {
@@ -29,6 +27,6 @@ chessApp.controller('EditPlayerController',
                 function onPlayerLoaded(player) {
                     $scope.player = player
                 });
-        }
+        };
     }
 );
