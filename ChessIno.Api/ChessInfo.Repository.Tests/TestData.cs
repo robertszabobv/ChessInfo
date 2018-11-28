@@ -53,8 +53,8 @@ namespace ChessInfo.Repository.Tests
         {
             return Builder<Player>.CreateNew()
                 .With(p => p.PlayerId = 0)
-                .With(p => p.FirstName = $"{John}{DateTime.Now.Ticks}")
-                .With(p => p.LastName = $"{Doe}{DateTime.Now.Ticks}")
+                .With(p => p.FirstName = $"{John}{DateTime.Now.Ticks.ToString().Substring(0, 3)}")
+                .With(p => p.LastName = $"{Doe}{DateTime.Now.Ticks.ToString().Substring(0, 3)}")
                 .With(p => p.Rating = 1100)
                 .Build();
         }
@@ -63,8 +63,8 @@ namespace ChessInfo.Repository.Tests
         {
             return Builder<Player>.CreateNew()
                 .With(p => p.PlayerId = 0)
-                .With(p => p.FirstName = $"{Vincent}{DateTime.Now.Ticks}")
-                .With(p => p.LastName = $"{John}{DateTime.Now.Ticks}")
+                .With(p => p.FirstName = $"{Vincent}{DateTime.Now.Ticks.ToString().Substring(0, 3)}")
+                .With(p => p.LastName = $"{John}{DateTime.Now.Ticks.ToString().Substring(0, 3)}")
                 .With(p => p.Rating = 1200)
                 .Build();
         }

@@ -13,7 +13,7 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void CreateGame_Succeeds()
         {
-            var game = TestData.CreateGame(TestData.A01);
+            var game = TestData.CreateGame();
             using (var repository = new GamesRepository())
             {
                 Assert.DoesNotThrow(() => repository.AddGame(game));
@@ -39,7 +39,7 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void GetGames_WithNoFilter_ReturnsAllGamesWithPlayers()
         {
-            var game = TestData.CreateGame(TestData.A01);
+            var game = TestData.CreateGame();
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(game);
@@ -66,7 +66,7 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void GetGames_ByPlayerLasName_ReturnsGamesWherePlayerParticipatedAsWhite()
         {
-            var game = TestData.CreateGame(TestData.A01);
+            var game = TestData.CreateGame();
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(game);
@@ -105,7 +105,7 @@ namespace ChessInfo.Repository.Tests
         {
             const string searchingFor = "B";
             var b99Game = TestData.CreateGame(TestData.B99);
-            var a01Game = TestData.CreateGame(TestData.A01);
+            var a01Game = TestData.CreateGame();
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(b99Game);
@@ -121,7 +121,7 @@ namespace ChessInfo.Repository.Tests
         {
             const string searchingFor = "b";
             var b99Game = TestData.CreateGame(TestData.B99);
-            var a01Game = TestData.CreateGame(TestData.A01);
+            var a01Game = TestData.CreateGame();
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(b99Game);
@@ -137,7 +137,7 @@ namespace ChessInfo.Repository.Tests
         {
             const string searchedOpeningClassification = "A0";
             var b99Game = TestData.CreateGame(TestData.B99);
-            var a01Game = TestData.CreateGame(TestData.A01);
+            var a01Game = TestData.CreateGame();
             using (var repository = new GamesRepository())
             {
                 repository.AddGame(b99Game);
@@ -180,7 +180,7 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void UpdateGame_ReturnsFalse_WhenUpdatingANonExistingGame()
         {
-            var dummyGame = TestData.CreateGame(TestData.A01);
+            var dummyGame = TestData.CreateGame();
             dummyGame.GameId = -1;
             using (var repository = new GamesRepository())
             {
