@@ -59,24 +59,21 @@ chessApp.controller('EditGameController',
         function areWhiteAndBlackDifferentPlayers() {
             return $scope.game.whitePlayer !== $scope.game.blackPlayer;
         }
-        
+
         $scope.saveGame = function(game, gameForm) {
             if(gameForm.$valid && areWhiteAndBlackDifferentPlayers()) {
                 gamesService.saveGame(game)
-                .success(function(data, status) {
+                .then(response => {
                     window.alert('game ' 
-                        + game.whitePlayer.firstName + ' ' + game.whitePlayer.lastName 
-                        + ' vs. ' 
-                        + game.blackPlayer.firstName + ' ' + game.blackPlayer.lastName 
-                        + ' saved!');
-                    $location.url("/games");
-                })
-                .error(function(data, status, headers, config) {
-                    $log.warn(data, status, headers, config);
-                });;
+                                + game.whitePlayer.firstName + ' ' + game.whitePlayer.lastName 
+                                + ' vs. ' 
+                                + game.blackPlayer.firstName + ' ' + game.blackPlayer.lastName 
+                                + ' saved!');
+                            $location.url("/games");
+                }).catch(error => $log.log(error))
             }
         }
-
+                
         $scope.cancel = function() {
             $location.url("/games");
         }
