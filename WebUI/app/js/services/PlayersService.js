@@ -24,19 +24,9 @@ chessApp.factory('playersService', function($http, $log) {
         getPlayersForSelection: function(lastName) {
             return $http.get(getPlayersUrl(lastName));             
         },
-        
-        deletePlayer: function(successCallback, hasGamesCallback, failedCallback, playerId) {
-            return $http.delete('/api/players/' + playerId)
-            .success(function(data, status, headers, config) {
-                successCallback(data);
-            })
-            .error(function(data, status, headers, config) {
-                if(status === 400) {
-                    hasGamesCallback(data);
-                }
-                $log.warn(data, status, headers, config);
-                failedCallback();                
-            });
-        }
+
+        deletePlayer: function(playerId) {
+            return $http.delete('/api/players/' + playerId);            
+        }             
     };
 });

@@ -21,23 +21,21 @@ chessApp.controller('PlayersController',
                 $log.warn(error);
             });
         }
-       
+
         $scope.deletePlayer = function(player) {
-            playersService.deletePlayer(
-                function onPlayerDeleted() {
-                    var index = $scope.players.indexOf(player);
-                    $scope.players.splice(index, 1);
-                    alert(player.firstName + " " + player.lastName + " deleted.");
-                },
-                function onPlayerHasGames() {
+            playersService.deletePlayer(player.playerId)
+            .then(response => {
+                var index = $scope.players.indexOf(player);
+                $scope.players.splice(index, 1);
+                alert(player.firstName + " " + player.lastName + " deleted.");
+            })
+            .catch(error => {
+                if(error.status === 400) {
                     alert("Cannot delete " 
                         + player.firstName + " " + player.lastName
                         + ", because he/she is a player in one or more games. Please delete those games first.")
-                },
-                function onDeleteFailed(data, status, headers, config) {
-                    $log.warn(data, status, headers, config);
-                },
-                player.playerId
-            );
-        }       
+                }
+                $log.warn(error);
+            });;
+        }                     
 });
