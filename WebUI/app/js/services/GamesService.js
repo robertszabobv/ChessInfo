@@ -10,16 +10,10 @@ chessApp.factory('gamesService', function($http, $log) {
             return $http.get(getGamesUrl(playerFilter, openingFilter));          
         },
 
-        getGame: function(gameId, successCallback) {           
-            $http.get( '/api/games/' + gameId)
-            .success(function(data, status, headers, config) {
-                successCallback(data);          
-            })
-            .error(function(data, status, headers, config) {
-                $log.warn(data, status, headers, config);                       
-            });
-        },     
-
+        getGame: function(gameId) {
+            return $http.get( '/api/games/' + gameId);
+        },
+ 
         deleteGame: function(gameId) {
             return $http.delete('/api/games/' + gameId);           
         }
