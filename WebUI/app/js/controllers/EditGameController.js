@@ -21,22 +21,28 @@ chessApp.controller('EditGameController',
 
         playersService.getPlayers(function OnPlayersLoaded(players) {
             $scope.players = players;
-            $scope.game.whitePlayer = players[0];
-            $scope.game.blackPlayer = players[1];
-            // $scope.game.gameResult = 1;
-
+            initDefaultGamePlayers(players);
             if($routeParams.gameId === undefined) {
                 return;
             }
+            
+            initGame();
+        });
+
+        function initGame() {
             gamesService.getGame($routeParams.gameId,
                 function onGameLoaded(game) {
                     var gameDateString = game.gameDate;
                     game.gameDate = new Date(gameDateString);
-                    // game.gameResult = 1;
                     $scope.game = game;                  
                 }
             );
-        }) ;
+        }
+
+        function initDefaultGamePlayers(players) {
+            $scope.game.whitePlayer = players[0];
+            $scope.game.blackPlayer = players[1];
+        }
         
         $scope.canCreateGame = function() {
             return areAtLeastTwoPlayers();
@@ -82,7 +88,6 @@ chessApp.controller('EditGameController',
 
         function getDefaultGame() {
             $scope.game = {};
-            // $scope.game.gameResult = 1;
             $scope.canCreateGame = false
         }
     }
