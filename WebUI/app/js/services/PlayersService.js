@@ -13,14 +13,8 @@ chessApp.factory('playersService', function($http, $log) {
             return $http.post('/api/players', player);        
         },
 
-        getPlayer: function(playerId, successCallback) {           
-            $http.get( '/api/players/' + playerId)
-            .success(function(data, status, headers, config) {
-                successCallback(data);          
-            })
-            .error(function(data, status, headers, config) {
-                $log.warn(data, status, headers, config);                       
-            });
+        getPlayer: function(playerId) {           
+            return $http.get( '/api/players/' + playerId);            
         },       
 
         getPlayers: function(successCallback, notFoundCallback, lastName) {          

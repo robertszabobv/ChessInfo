@@ -18,15 +18,14 @@ chessApp.controller('EditPlayerController',
         $scope.cancel = function() {
             $location.url("/players");
         };  
-        
+
         function getPlayer() {
             if($routeParams.playerId === undefined) {
                 return {};
             }
-            playersService.getPlayer($routeParams.playerId,
-                function onPlayerLoaded(player) {
-                    $scope.player = player
-                });
-        };
+            playersService.getPlayer($routeParams.playerId)
+                .then(result => $scope.player = result.data)
+                .catch(error => $log.warn(error));
+        }                
     }
 );
