@@ -19,18 +19,18 @@ namespace ChessInfo.Api.IntegrationTests
         {
             Game game = CreateDummyGame();
             Uri newGameUri = ChessInfoHttpClient.SendHttpPostToCreateNew(game, GamesRelativeUrl);
-            GameDto gameLoaded = ChessInfoHttpClient.SendHttpGetFor<GameDto>(newGameUri);
+            Game gameLoaded = ChessInfoHttpClient.SendHttpGetFor<Game>(newGameUri);
             Assert.IsTrue(IsFilledWithExpectedValues(gameLoaded));
 
             game.GameId = gameLoaded.GameId;
             game.OpeningClassification = OpeningClassificationUpdated;
             ChessInfoHttpClient.SendHttpPutToUpdate(game, GamesRelativeUrl).Wait();
-            GameDto gameUpdated = ChessInfoHttpClient.SendHttpGetFor<GameDto>(newGameUri);
+            Game gameUpdated = ChessInfoHttpClient.SendHttpGetFor<Game>(newGameUri);
 
             Assert.AreEqual(OpeningClassificationUpdated, gameUpdated.OpeningClassification);
 
             ChessInfoHttpClient.SendHttpDelete(newGameUri);
-            var gameAfterDelete = ChessInfoHttpClient.SendHttpGetFor<GameDto>(newGameUri);
+            var gameAfterDelete = ChessInfoHttpClient.SendHttpGetFor<Game>(newGameUri);
             Assert.IsNull(gameAfterDelete);
         }
 
@@ -64,14 +64,14 @@ namespace ChessInfo.Api.IntegrationTests
                    && !string.IsNullOrWhiteSpace(dto.Result);
         }
 
-        private bool IsFilledWithExpectedValues(GameDto dto)
+        private bool IsFilledWithExpectedValues(Game dto)
         {
             return dto.GameId > 0
-                   && !string.IsNullOrWhiteSpace(dto.WhitePlayer)
-                   && !string.IsNullOrWhiteSpace(dto.BlackPlayer)
+                   && dto.WhitePlayerId > 0
+                   && dto.BlackPlayerId > 0
                    && dto.GameDate == DateTime.Today
                    && dto.OpeningClassification == OpeningClassificationInitial
-                   &&  dto.Result == "1-0";
+                   && dto.GameResult > 0;
         }
         
         private Game CreateDummyGame()
