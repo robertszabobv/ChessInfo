@@ -12,16 +12,16 @@ chessApp.controller('PlayersController',
         } ;
     
         function loadPlayers() {
-            playersService.getPlayers(
-                function onPlayersLoaded(playersFiltered) {
-                    $scope.players = playersFiltered;
-                }, 
-                function onPlayersNotFound() {
+            playersService.getPlayers($scope.filter)
+            .then(response => $scope.players = response.data)
+            .catch(error => {
+                if(error.status === 404) {
                     $scope.players = [];
-                },
-                $scope.filter);
+                }
+                $log.warn(error);
+            });
         }
-
+       
         $scope.deletePlayer = function(player) {
             playersService.deletePlayer(
                 function onPlayerDeleted() {
