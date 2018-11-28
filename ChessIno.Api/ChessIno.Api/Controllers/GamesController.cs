@@ -43,7 +43,6 @@ namespace ChessInfo.Api.Controllers
                 }
 
                 return Ok(game);
-                //return Ok(CreateDtoFrom(game));
             }
         }
 
