@@ -10,6 +10,5 @@ namespace ChessInfo.Domain
         IEnumerable<Player> GetPlayers(string lastName = null);
         bool DeletePlayer(int playerId);
         bool Update(Player player);
-
     }
 }

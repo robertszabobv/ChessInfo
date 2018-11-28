@@ -144,8 +144,7 @@ namespace ChessInfo.Api.Tests.Controllers
 
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
-
-
+        
         [Test]
         public void GetPlayers_Returns_200_WhenPlayersFound()
         {

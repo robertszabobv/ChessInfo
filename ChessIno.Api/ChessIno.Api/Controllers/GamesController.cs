@@ -41,7 +41,6 @@ namespace ChessInfo.Api.Controllers
                 {
                     return NotFound();
                 }
-
                 return Ok(game);
             }
         }
@@ -67,7 +66,6 @@ namespace ChessInfo.Api.Controllers
             {
                 dtos.Add(CreateDtoFrom(game));
             }
-
             return dtos;
         }
 
@@ -93,7 +91,6 @@ namespace ChessInfo.Api.Controllers
             {
                 return BadRequest();
             }
-
             using (_gamesRepository)
             {
                 if (_gamesRepository.Update(game))
@@ -113,6 +110,5 @@ namespace ChessInfo.Api.Controllers
                 return NoContent();
             }
         }
-
     }
 }

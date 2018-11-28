@@ -53,7 +53,6 @@ namespace ChessInfo.Api.Tests.Controllers
 
             Assert.IsInstanceOf<BadRequestResult>(result);
         }
-
         
         [Test]
         public void CreateGame_Returns_400_WhenOpeningClassificationIsNotSet()
