@@ -37,6 +37,12 @@ chessApp.factory('playersService', function($http, $log) {
                 };                
             });
         }, 
+
+        getPlayersForSelection: function(lastName) {
+            return $http.get(getPlayersUrl(lastName));
+            // .then(players => players)
+            // .catch(err => console.log(err));           
+        },
         
         deletePlayer: function(successCallback, hasGamesCallback, failedCallback, playerId) {
             return $http.delete('/api/players/' + playerId)

@@ -1,7 +1,9 @@
 chessApp.factory('gamesService', function($http, $log) {
     return {
         saveGame: function(game, successCallback) {
-            return $http.post('/api/games', createDtoFrom(game));            
+            return game.gameId === 0 
+                ? $http.post('/api/games', createDtoFrom(game))
+                : $http.put('/api/games', createDtoFrom(game));            
         },
 
         getGames: function(successCallback, notFoundCallback, playerFilter, openingFilter) {
@@ -43,6 +45,7 @@ chessApp.factory('gamesService', function($http, $log) {
 
     function createDtoFrom(game) {
         return {
+            gameId: game.gameId,
             whitePlayerId: game.whitePlayer.playerId,
             blackPlayerId: game.blackPlayer.playerId,
             gameDate: game.gameDate,
