@@ -25,11 +25,28 @@
                 <input id="openingClassification" type="text" required ng-pattern="/[A-E]\d{2}/g" 
                     ng-model="game.openingClassification" placeholder="A-E followed by two digits..."   />   
                 <label for="result">Result:</label>
-                <select id="result" ng-model="game.gameResult">
+
+                <select id="result" 
+                    ng-model="game.resultDetail"
+                    ng-options="item.display for item in resultOptions track by item.resultType">
+                </select>
+
+                <!-- <select id="result" 
+                    ng-model="game.gameResult"
+                    ng-options="item for item in resultOptions">
+                </select> -->
+
+                {{game.gameResult}}
+                <!-- <select id="result" ng-model="game.gameResult">
                     <option value="1">1-0</option>
                     <option value="2">0.5-0.5</option>
                     <option value="3">0-1</option>                
-                </select>
+                </select> -->
+                
+                <!-- <select ng-model="game.gameResult">
+                    <option ng-repeat="result in resultOptions" value="result.value">{{result.display}}</option>
+                </select> -->
+
             </fieldset>
 
             

@@ -47,7 +47,7 @@ chessApp.factory('gamesService', function($http, $log) {
             blackPlayerId: game.blackPlayer.playerId,
             gameDate: game.gameDate,
             openingClassification: game.openingClassification,
-            gameResult: game.result
+            resultDetail: game.resultDetail
         };
     }
 

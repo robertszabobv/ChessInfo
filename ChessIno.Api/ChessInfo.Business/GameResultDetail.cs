@@ -17,6 +17,8 @@ namespace ChessInfo.Domain
         };
         public GameResultTypes ResultType { get; set; }
 
+        public string Display => ToString();
+
         public override string ToString()
         {
             return _results[ResultType];
