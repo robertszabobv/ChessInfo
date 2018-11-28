@@ -20,15 +20,8 @@ chessApp.factory('gamesService', function($http, $log) {
             });
         },     
 
-        deleteGame: function(successCallback, failedCallback, gameId) {
-            return $http.delete('/api/games/' + gameId)
-            .success(function(data, status, headers, config) {
-                successCallback(data);
-            })
-            .error(function(data, status, headers, config) {                
-                $log.warn(data, status, headers, config);
-                failedCallback();                
-            });
+        deleteGame: function(gameId) {
+            return $http.delete('/api/games/' + gameId);           
         }
     };
 

@@ -11,22 +11,20 @@ chessApp.controller('GamesController',
             .catch(err => {
                 $log.warn(err);
                 $scope.games = [];
-            })
-        }
-       
-        $scope.deleteGame = function(game) {
-            gamesService.deleteGame(
-                function onGameDeleted() {
-                    var index = $scope.games.indexOf(game);
-                    $scope.games.splice(index, 1);
-                    alert("game " + game.whitePlayer + " vs. " + game.blackPlayer + " deleted.");
-                },
-                function onDeleteFailed(data, status, headers, config) {
-                    $log.warn(data, status, headers, config);
-                },
-                game.gameId
-            );
+            });
         }
 
+        $scope.deleteGame = function(game) {
+            gamesService.deleteGame(game.gameId)
+            .then(response => {
+                var index = $scope.games.indexOf(game);
+                $scope.games.splice(index, 1);
+                alert("game " + game.whitePlayer + " vs. " + game.blackPlayer + " deleted.");
+            })
+            .catch(err => {
+                $log.warn(err);
+            });
+        }
+               
         $scope.loadGames();
 });
