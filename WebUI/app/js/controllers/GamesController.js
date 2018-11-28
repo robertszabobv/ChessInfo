@@ -6,16 +6,14 @@ chessApp.controller('GamesController',
         $scope.openingFilter = "";      
 
         $scope.loadGames = function() {
-            gamesService.getGames(function onGamesLoaded(gamesFiltered) {
-                $scope.games = gamesFiltered;
-            },
-            function onGamesNotFound() {
+            gamesService.getGames($scope.playerFilter, $scope.openingFilter)
+            .then(response => $scope.games = response.data)
+            .catch(err => {
+                $log.warn(err);
                 $scope.games = [];
-            },
-            $scope.playerFilter,
-            $scope.openingFilter)
+            })
         }
-
+       
         $scope.deleteGame = function(game) {
             gamesService.deleteGame(
                 function onGameDeleted() {

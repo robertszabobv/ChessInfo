@@ -6,19 +6,8 @@ chessApp.factory('gamesService', function($http, $log) {
                 : $http.put('/api/games', createDtoFrom(game));            
         },
 
-        getGames: function(successCallback, notFoundCallback, playerFilter, openingFilter) {
-            return $http.get(getGamesUrl(playerFilter, openingFilter))
-            .success(function(data, status, headers, config) {
-                successCallback(data);          
-            })
-            .error(function(data, status, headers, config) {
-                if(status === 404) {
-                    notFoundCallback();
-                }
-                else {
-                    $log.warn(data, status, headers, config);
-                };                       
-            });
+        getGames: function(playerFilter, openingFilter) {
+            return $http.get(getGamesUrl(playerFilter, openingFilter));          
         },
 
         getGame: function(gameId, successCallback) {           
