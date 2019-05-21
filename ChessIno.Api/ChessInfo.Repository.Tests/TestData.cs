@@ -43,7 +43,8 @@ namespace ChessInfo.Repository.Tests
 
         private static void SavePlayer(Player player)
         {
-            using (var repository = new PlayersRepository())
+            var repositoryTests = new RepositoryTests();
+            using (var repository = new PlayersRepository(repositoryTests.GetContext()))
             {
                 repository.AddPlayer(player);
             }

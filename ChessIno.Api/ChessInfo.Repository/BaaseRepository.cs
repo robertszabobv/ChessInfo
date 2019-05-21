@@ -1,6 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace ChessInfo.Repository
 {
@@ -8,17 +6,9 @@ namespace ChessInfo.Repository
     {
         protected ChessInfoContext Context { get; }
 
-        protected BaseRepository()
+        protected BaseRepository(ChessInfoContext context)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
-            var optionsBuilder = new DbContextOptionsBuilder<ChessInfoContext>();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("ChessInfoContext"));
-            Context = new ChessInfoContext(optionsBuilder.Options);
-
-            Context.Database.Migrate();
+            Context = context;
         }
 
         public void Dispose()

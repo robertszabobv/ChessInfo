@@ -10,10 +10,12 @@ namespace ChessInfo.Repository.Tests
     [Category("Integration tests")]
     public class PlayersRepositoryTests
     {
+        private readonly RepositoryTests _repositoryTests = new RepositoryTests();
+
         [Test]
         public void AddPlayer_Succeeds()
         {
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 Assert.DoesNotThrow(() => repository.AddPlayer(CreateNewDummyPlayer()));
             }                
@@ -24,7 +26,7 @@ namespace ChessInfo.Repository.Tests
         {
             var player = CreateNewDummyPlayer();
             AddPlayer(player);
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 var loadedPlayer = repository.GetById(player.PlayerId);
 
@@ -36,7 +38,7 @@ namespace ChessInfo.Repository.Tests
         public void GetById_ReturnsNullWhenNotFound()
         {
             const int nonExistentPlayerId = -1;
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 var loadedPlayer = repository.GetById(nonExistentPlayerId);
 
@@ -47,7 +49,7 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void GetPlayers_ReturnsPlayers()
         {
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 var loadedPlayers = repository.GetPlayers();
 
@@ -59,7 +61,7 @@ namespace ChessInfo.Repository.Tests
         public void GetPlayersByLastName_ReturnsPlayersWithSpecifiedLastNameOnly()
         {
             string lastName = DateTime.Now.DayOfWeek.ToString();
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 repository.AddPlayer(CreatePlayerWithLastName(lastName));
                 var loadedPlayers = repository.GetPlayers(lastName);
@@ -73,7 +75,7 @@ namespace ChessInfo.Repository.Tests
         {
             string lastName = DateTime.Now.DayOfWeek.ToString();
             string lastNameToFind = lastName.Substring(0, 3);
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 repository.AddPlayer(CreatePlayerWithLastName(lastName));
                 var loadedPlayers = repository.GetPlayers(lastNameToFind);
@@ -87,7 +89,7 @@ namespace ChessInfo.Repository.Tests
         {
             string lastName = DateTime.Now.DayOfWeek.ToString();
             string lastNameToFind = lastName.Substring(0, 3).ToLower();
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 repository.AddPlayer(CreatePlayerWithLastName(lastName));
                 var loadedPlayers = repository.GetPlayers(lastNameToFind);
@@ -100,7 +102,7 @@ namespace ChessInfo.Repository.Tests
         public void DeletePlayer_DeletesPlayer()
         {
             string lastName = DateTime.Now.DayOfWeek.ToString();
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 repository.AddPlayer(CreatePlayerWithLastName(lastName));
                 int playerId = repository.GetPlayers(lastName).First().PlayerId;
@@ -115,7 +117,7 @@ namespace ChessInfo.Repository.Tests
         public void UpdatePlayer_UpdatesPlayer()
         {
             string lastName = DateTime.Now.DayOfWeek.ToString();
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 repository.AddPlayer(CreatePlayerWithLastName(lastName));
                 Player playerToUpdate = repository.GetPlayers(lastName).First();
@@ -141,7 +143,7 @@ namespace ChessInfo.Repository.Tests
         {
             bool updatePerformed;
             var nonExistentPlayer = CreateNewDummyPlayer();
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 updatePerformed = repository.Update(nonExistentPlayer);
             }
@@ -153,11 +155,11 @@ namespace ChessInfo.Repository.Tests
         public void DeletePlayer_FailsWhenPlayerHasAnyGame()
         {
             var game = TestData.CreateGame();
-            using (var gamesRepository = new GamesRepository())
+            using (var gamesRepository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 gamesRepository.AddGame(game);
             }
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 bool isPlayerDeleted = repository.DeletePlayer(game.WhitePlayerId);
 
@@ -167,7 +169,7 @@ namespace ChessInfo.Repository.Tests
 
         private void AddPlayer(Player player)
         {
-            using (var repository = new PlayersRepository())
+            using (var repository = new PlayersRepository(_repositoryTests.GetContext()))
             {
                 repository.AddPlayer(player);                
             }

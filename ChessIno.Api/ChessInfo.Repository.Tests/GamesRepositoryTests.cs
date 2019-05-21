@@ -9,12 +9,14 @@ namespace ChessInfo.Repository.Tests
     [TestFixture]
     [Category("Integration tests")]
     public class GamesRepositoryTests
-    {       
+    {
+        private readonly RepositoryTests _repositoryTests = new RepositoryTests();
+
         [Test]
         public void CreateGame_Succeeds()
         {
             var game = TestData.CreateGame();
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 Assert.DoesNotThrow(() => repository.AddGame(game));
             }
@@ -24,7 +26,7 @@ namespace ChessInfo.Repository.Tests
         public void GetById_ReturnsGameByIdWithPlayersAndResultDetail()
         {
             var game = TestData.CreateGame(TestData.B99);
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 repository.AddGame(game);
                 var gameLoaded = repository.GetById(game.GameId);
@@ -40,7 +42,7 @@ namespace ChessInfo.Repository.Tests
         public void GetGames_WithNoFilter_ReturnsAllGamesWithPlayers()
         {
             var game = TestData.CreateGame();
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 repository.AddGame(game);
                 IEnumerable<Game> gamesLoaded = repository.GetGames().ToList();
@@ -54,7 +56,7 @@ namespace ChessInfo.Repository.Tests
         public void GetGames_ByPlayerLasName_ReturnsGamesWherePlayerParticipatedAsBlack()
         {
             var game = TestData.CreateGame(TestData.B99);
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 repository.AddGame(game);
                 IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: TestData.John);
@@ -67,7 +69,7 @@ namespace ChessInfo.Repository.Tests
         public void GetGames_ByPlayerLasName_ReturnsGamesWherePlayerParticipatedAsWhite()
         {
             var game = TestData.CreateGame();
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 repository.AddGame(game);
                 IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: TestData.Doe);
@@ -79,7 +81,7 @@ namespace ChessInfo.Repository.Tests
         [Test]
         public void GetGames_ByNonExistentPlayerLasName_ReturnsEmpty()
         {
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: TestData.NonExistentName);
 
@@ -91,7 +93,7 @@ namespace ChessInfo.Repository.Tests
         public void GetGames_ByPlayerFirstName_ReturnsEmpty()
         {
             var game = TestData.CreateGame(TestData.B99);
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 repository.AddGame(game);
                 IEnumerable<Game> gamesLoaded = repository.GetGames(playerLastName: TestData.Vincent);
@@ -106,7 +108,7 @@ namespace ChessInfo.Repository.Tests
             const string searchingFor = "B";
             var b99Game = TestData.CreateGame(TestData.B99);
             var a01Game = TestData.CreateGame();
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 repository.AddGame(b99Game);
                 repository.AddGame(a01Game);
@@ -122,7 +124,7 @@ namespace ChessInfo.Repository.Tests
             const string searchingFor = "b";
             var b99Game = TestData.CreateGame(TestData.B99);
             var a01Game = TestData.CreateGame();
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 repository.AddGame(b99Game);
                 repository.AddGame(a01Game);
@@ -138,7 +140,7 @@ namespace ChessInfo.Repository.Tests
             const string searchedOpeningClassification = "A0";
             var b99Game = TestData.CreateGame(TestData.B99);
             var a01Game = TestData.CreateGame();
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 repository.AddGame(b99Game);
                 repository.AddGame(a01Game);
@@ -155,7 +157,7 @@ namespace ChessInfo.Repository.Tests
         {
             const string d10 = "D10";
             var b99Game = TestData.CreateGame(TestData.B99);
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 repository.AddGame(b99Game);
                 var newWhitePlayer = TestData.AddWhitePlayer();
@@ -182,7 +184,7 @@ namespace ChessInfo.Repository.Tests
         {
             var dummyGame = TestData.CreateGame();
             dummyGame.GameId = -1;
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 bool isUpdated = repository.Update(dummyGame);
 
@@ -194,7 +196,7 @@ namespace ChessInfo.Repository.Tests
         public void DeleteGame_DeletesGame()
         {
             var b99Game = TestData.CreateGame(TestData.B99);
-            using (var repository = new GamesRepository())
+            using (var repository = new GamesRepository(_repositoryTests.GetContext()))
             {
                 repository.AddGame(b99Game);
                 repository.DeleteGame(b99Game.GameId);

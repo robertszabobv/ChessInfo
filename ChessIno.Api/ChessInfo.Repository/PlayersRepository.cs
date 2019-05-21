@@ -6,7 +6,11 @@ using ChessInfo.Domain;
 namespace ChessInfo.Repository
 {
     public class PlayersRepository : BaseRepository, IPlayersRepository
-    {        
+    {
+        public PlayersRepository(ChessInfoContext context) : base(context)
+        {
+        }
+
         public void AddPlayer(Player newPlayer)
         {            
             Context.Players.Add(newPlayer);
@@ -61,6 +65,8 @@ namespace ChessInfo.Repository
             return string.IsNullOrWhiteSpace(lastName)
                 ? p => true
                 : new Func<Player, bool>(p => p.LastName.StartsWith(lastName, StringComparison.OrdinalIgnoreCase));
-        }        
+        }
+
+        
     }
 }

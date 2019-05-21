@@ -7,7 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace ChessInfo.Repository
 {
     public class GamesRepository : BaseRepository, IGamesRepository
-    {        
+    {
+        public GamesRepository(ChessInfoContext context) : base(context)
+        {
+        }
+
         public void AddGame(Game newGame)
         {
             Context.Games.Add(newGame);
@@ -85,6 +89,8 @@ namespace ChessInfo.Repository
                 Context.Games.Remove(gameToDelete);
                 Context.SaveChanges();
             }
-        }        
+        }
+
+        
     }
 }
