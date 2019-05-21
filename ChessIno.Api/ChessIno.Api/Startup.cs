@@ -40,6 +40,12 @@ namespace ChessInfo.Api
             }
 
             app.UseMvc();
+
+            //------ running migrations - draft?
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<ChessInfoContext>().Database.Migrate();
+            }
         }
     }
 }

@@ -7,7 +7,9 @@ namespace ChessInfo.Repository
     public class ChessInfoContext : DbContext
     {
         public ChessInfoContext(DbContextOptions<ChessInfoContext> options) : base(options)
-        {}
+        {
+            //Database.Migrate();
+        }
 
         public DbSet<Player> Players { get ; set; }
         public DbSet<Game> Games { get; set; }

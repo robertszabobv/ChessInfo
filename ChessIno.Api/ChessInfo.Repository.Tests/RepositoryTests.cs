@@ -12,7 +12,7 @@ namespace ChessInfo.Repository.Tests
         private ChessInfoContext CreateInMemoryContext()
         {
             var dbOptions = new DbContextOptionsBuilder<ChessInfoContext>()
-                .UseInMemoryDatabase("ChessInfo")
+                .UseInMemoryDatabase("ChessInfoTest")
                 .Options;
             return new ChessInfoContext(dbOptions);
         }
